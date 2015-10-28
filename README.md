@@ -6,5 +6,5 @@ An Introduction to JavaScript and Linked Data WS 2015/16 Project
 ##### Joanna Kwong
 ##### Paola Perez
 ##### Fabian Röhr
-##### Aripsa Roy
+##### Avipsa Roy
 
