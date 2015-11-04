@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
 <head>
 Linked Data and Javascript - Lab3:Assignment
+    <meta charset="utf-8">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 </head>
 
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <h1>Course: An Introduction to Javascript and Linked Data</h1>
 <h2>Semester: Winter Semester 2015/2016</h2>
 
@@ -16,6 +24,11 @@ Linked Data and Javascript - Lab3:Assignment
 <p id = "p3">Where (more precisely)? GEO1, 3rd Floor , Room 323</p>
 <p id = "p4">Course Language: English</p>
 
+<p>Semester Begins: <input type="text" id="datepicker"></p>
+<br>
+<div id="dialog" title="Basic dialog">
+    <p>This is a default dialog box.</p>
+</div>
 <fieldset>
     <legend>Some information about me</legend>
     <form id = "target">
@@ -51,6 +64,7 @@ Linked Data and Javascript - Lab3:Assignment
     
 	</form>
     <input type = "submit" id ="sub1" onclick="myFunction()" value = "Submit"></input>
+
 </fieldset>	
 
 <input type = "button" id = "0" class = "operations" value = "Select all checkboxes"> </input>
@@ -70,7 +84,7 @@ Linked Data and Javascript - Lab3:Assignment
        });
 
         $("#1").click(function() {
-            $("#p4").before("<p>Location on Google Maps:<a href = \"maps.google.com\">View Here</a></p>");
+            $("#p4").before("<p>Location on Google Maps:<a href = \"https://maps.google.com\">View Here</a></p>");
         });
         $("#2").click(function(){
             $("p").fadeOut("slow");
@@ -81,6 +95,12 @@ Linked Data and Javascript - Lab3:Assignment
       });
 
         $('input[type="submit"]').prop("disabled",true);
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+        $(function() {
+            $( "#dialog" ).dialog();
+        });
     });
 
 window.addEventListener("resize", myPopup);
