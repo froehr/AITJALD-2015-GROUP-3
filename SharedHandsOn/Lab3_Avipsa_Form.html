@@ -3,19 +3,22 @@
 <head>
 Linked Data and Javascript - Lab3:Assignment
 </head>
+
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+
 <h1>Course: An Introduction to Javascript and Linked Data</h1>
 <h2>Semester: Winter Semester 2015/2016</h2>
-<p>When? Every Wednesday</br>
-</br>
-Where? Institute for Geoinformatics </br>
-</br>
-Where (more precisely)? GEO1, 3rd Floor , Room 323</br>
-</br>
-Course Language: English</p>
+
+<p id = "p1">When? Every Wednesday</br></p>
+<p id = "p2">Where? Institute for Geoinformatics</p>
+<p id = "p3">Where (more precisely)? GEO1, 3rd Floor , Room 323</p>
+<p id = "p4">Course Language: English</p>
+
 <fieldset>
     <legend>Some information about me</legend>
-    <form>
+    <form id = "target">
         First name:<input type="text" name="firstname" value="Avipsa">
         </br>
         </br>
@@ -25,18 +28,19 @@ Course Language: English</p>
         <input type="radio" name="Master" value="Master">Master</t>
         <input type="radio" name="PhD" value="PhD">PhD</br><br>
         Why I've decided to study Geoinformatics:<br>
-<input type="checkbox" name="opt1" value="opt1"> I'm interested in everything that is related to geography
-<br>
-    <input type="checkbox" name="opt2" value="opt2"> I'm interested in everything that is related to informatics
+        <input type="checkbox" id = "opt1" name="opt1" value="opt1"> I'm interested in everything that is related to geography
+    <br>
+        <input type="checkbox" id = "opt2" name="opt2" value="opt2"> I'm interested in everything that is related to informatics
         <br>
-    <input type="checkbox" name="opt3" value="opt3"> I must study
+        <input type="checkbox" id = "opt3" name="opt3" value="opt3"> I must study
         <br>
-            <input type="checkbox" name="opt4" value="opt4"> I like to study
+        <input type="checkbox" id = "opt4" name="opt4" value="opt4"> I like to study
                 <br><br>
-     Here is my CV:<input type = "file" name = "cv" value = "Upload..">
+        Here is my CV:
+        <input type = "file" name = "cv" value = "Upload..">
                     <br><br>
-					
-	Additional Info:<input type = "textarea" rows = "100", cols = "50", name = "text1"><br>	<br>
+		Additional Info:
+        <input type = "textarea" rows = "100", cols = "50", name = "text1"><br>	<br>
 
 	Subjects:<select>
   <option value="sub1">Linked Data and Javascript</option>
@@ -46,25 +50,39 @@ Course Language: English</p>
 </select>
     
 	</form>
+    <input type = "submit" id ="sub1" onclick="myFunction()" value = "Submit"></input>
 </fieldset>	
 
-<fieldset>
-	<legend>Employee Details</legend>
-	<form>
-	Emp Firstname:<input type="text" name="empfname"><\t>Emp LastName:<input type = "text" name = "emplname">
-	<\t>Emp Age:<input type="text" name="empage">
-	<br>
-	<br>
-	Department:<select>
-  <option name="d1">Sales</option>
-  <option name="d2">Marketing</option>
-  <option name="d3">Consulting</option>
-  <option name="d4">Software</option>
-</select>
-	</form>
-</fieldset>
-<button onclick="myFunction()">Try it</button>
+<input type = "button" id = "0" class = "operations" value = "Select all checkboxes"> </input>
+<input type = "button" id = "1" class = "operations" value =  "Add Some Text"> </input>
+<input type = "button" id = "2" class = "operations" value = "Fade out paragraphs"> </input>
+<input type = "button" id = "3" class = "operations" value = "Hide Input Elements"> </input>
+
+
 <script>
+
+    $(document).ready(function(){
+       $("#0").click(function(){
+           $("#opt1").prop("checked",true);
+           $("#opt2").prop("checked", true);
+           $("#opt3").prop("checked",true);
+           $("#opt4").prop("checked",true);
+       });
+
+        $("#1").click(function() {
+            $("#p4").before("<p>Location on Google Maps:<a href = \"maps.google.com\">View Here</a></p>");
+        });
+        $("#2").click(function(){
+            $("p").fadeOut("slow");
+        });
+
+      $("#3").click(function(){
+          $("#target").hide();
+      });
+
+        $('input[type="submit"]').prop("disabled",true);
+    });
+
 window.addEventListener("resize", myPopup);
 function Employee(id,fname,lname,age)
 {

@@ -1,0 +1,22 @@
+<fieldset>
+	<legend>Employee Details</legend>
+	<form>
+	Emp Firstname:<input type="text" name="empfname"><\t>Emp LastName:<input type = "text" name = "emplname">
+	<\t>Emp Age:<input type="text" name="empage">
+	<br>
+	<br>
+	Department:<select>
+  <option name="d1">Sales</option>
+  <option name="d2">Marketing</option>
+  <option name="d3">Consulting</option>
+  <option name="d4">Software</option>
+</select>
+	</form>
+</fieldset>
+
+
+$("#1").click(function(){
+           $("#p4").before("<p>Location on Google Maps: " +
+                   "<a href = "https://www.google.de/maps/place/Institut+f%C3%BCr+Geoinformatik/@51.9691167,7.5935912,17z/data=!3m1!4b1!4m2!3m1!1s0x47b9babbc6913253:0xdd9421c2d900c53a?hl=en">View here</a>
+                   </p>");
+        })
