@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    Linked Data and Javascript - Lab3:Assignment
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <style>
+        #map{ height: 100% }
+    </style>
+</head>
+
+<body>
+
+<h1>Course: An Introduction to Javascript and Linked Data</h1>
+<h2>Semester: Winter Semester 2015/2016</h2>
+
+<p id = "p1">When? Every Wednesday</br></p>
+<p id = "p2">Where? Institute for Geoinformatics</p>
+<p id = "p3">Where (more precisely)? GEO1, 3rd Floor , Room 323</p>
+<p id = "p4">Course Language: English</p>
+
+<p>Semester Begins: <input type="text" id="datepicker"></p>
+<br>
+<div id="dialog" title="Basic dialog">
+    <p>This is a default dialog box.</p>
+</div>
+<fieldset>
+    <legend>Some information about me</legend>
+    <form id = "target">
+        First name:<input type="text" name="firstname" value="Avipsa">
+        </br>
+        </br>
+        Password :<input type = "password" name = "password" value = "*****">
+        </br></br>
+        Target Degree:<input type="radio" name="Bachelor" value="Bachelor">Bachelor</t>
+        <input type="radio" name="Master" value="Master">Master</t>
+        <input type="radio" name="PhD" value="PhD">PhD</br><br>
+        Why I've decided to study Geoinformatics:<br>
+        <input type="checkbox" id = "opt1" name="opt1" value="opt1"> I'm interested in everything that is related to geography
+        <br>
+        <input type="checkbox" id = "opt2" name="opt2" value="opt2"> I'm interested in everything that is related to informatics
+        <br>
+        <input type="checkbox" id = "opt3" name="opt3" value="opt3"> I must study
+        <br>
+        <input type="checkbox" id = "opt4" name="opt4" value="opt4"> I like to study
+        <br><br>
+        Here is my CV:
+        <input type = "file" name = "cv" value = "Upload..">
+        <br><br>
+        Additional Info:
+        <input type = "textarea" rows = "100", cols = "50", name = "text1"><br>	<br>
+
+        Subjects:<select>
+        <option value="sub1">Linked Data and Javascript</option>
+        <option value="sub2">Spatial Databases</option>
+        <option value="sub3">Analysis of Spatio Temporal Data</option>
+        <option value="sub4">Introduction to GIS</option>
+    </select>
+
+    </form>
+    <input type = "submit" id ="sub1" onclick="myFunction()" value = "Submit"></input>
+
+</fieldset>
+
+<div id="map" style="width: 600px; height: 400px"></div>
+
+<br>
+<br>
+
+<input type = "button" id = "0" class = "operations" value = "Select all checkboxes"> </input>
+<input type = "button" id = "1" class = "operations" value =  "Add Some Text"> </input>
+<input type = "button" id = "2" class = "operations" value = "Fade out paragraphs"> </input>
+<input type = "button" id = "3" class = "operations" value = "Hide Input Elements"> </input>
+<input type = "button" id = "4" class = "operations" value = "Show Input Elements"> </input>
+
+
+<script>
+
+    $(document).ready(function(){
+        $("#0").click(function(){
+            $("#opt1").prop("checked",true);
+            $("#opt2").prop("checked", true);
+            $("#opt3").prop("checked",true);
+            $("#opt4").prop("checked",true);
+        });
+
+        $("#1").click(function() {
+            $("#p4").before("<p>Location on Google Maps:<a href = \"https://maps.google.com\">View Here</a></p>");
+        });
+        $("#2").click(function(){
+            $("p").fadeOut("slow");
+        });
+
+        $("#3").click(function(){
+            $("#target").hide();
+        });
+
+        $("#4").click(function(){
+            $("#target").show();
+        });
+
+        $('input[type="submit"]').prop("disabled",true);
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+        $(function() {
+            $( "#dialog" ).dialog();
+        });
+    });
+
+    var map = L.map('map').setView([51.96236,7.6257], 13);
+    mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+    L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; ' + mapLink,
+                maxZoom: 18,
+            }).addTo(map);
+
+    L.marker([51.9626, 7.6094])
+            .addTo(map)
+            .bindPopup("<b>WWU</b>")
+            .openPopup();
+
+
+    var geojsonFeature = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [
+                            7.6090192794799805,
+                            51.96351940839632
+                        ],
+                        [
+                            7.624726295471191,
+                            51.96232946431691
+                        ],
+                        [
+                            7.62622833251953,
+                            51.95598256237277
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+    //};
+
+    L.geoJson(geojsonFeature).addTo(map);
+
+    window.addEventListener("resize", myPopup);
+    function Employee(id,fname,lname,age)
+    {
+        this.empId = id;
+        this.firstName = fname;
+        this.lastName = lname;
+        this.age = age;
+    }
+    function Department(dname, emp)
+    {
+        this.department = dname;
+        this.employee = emp;
+    }
+
+    var emp1 = new Employee(1,"Michael","Hawks",35);
+    var emp2 = new Employee(2,"Sam","Thomas",48);
+
+    var dept1 = new Department("Sales",emp1);
+    var dept2 = new Department("Consulting",emp2);
+
+    console.log(emp1);
+    console.log(emp2);
+    console.log(dept1);
+    console.log(dept2);
+
+
+    function myFunction()
+    {
+        var Fname = document.getElementsByName("empfname")[0].value;
+        var Lname = document.getElementsByName("emplname")[0].value;
+        var age = document.getElementsByName("empage")[0].value;
+        console.log(Fname);
+        console.log(Lname);
+        console.log(age);
+    }
+
+
+    function willNotChange(x)
+    {
+        console.log("Passage by value, before assignment x = " + x + "\n");
+        x = 2;
+        console.log("Passage by value, after assignment x = " + x + "\n");
+    }
+
+    function willChange(x)
+    {
+        console.log(x.num);
+        console.log("Passage by reference, before assignment x.num = " + x + "\n");
+        x.num = 2;
+        console.log("Passage by reference, after assignment, x.num = " + x.num + "\n");
+    }
+
+    var x = 2;
+    console.log(willNotChange(x));
+    var y = new Array(1,2,3);
+    console.log(y);
+    console.log(willChange(y));
+
+    function myPopup()
+    {
+        alert("Hello!");
+    }
+</script>
+</body>
+</html>
