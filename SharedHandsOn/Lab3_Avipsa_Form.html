@@ -3,19 +3,23 @@
 <head>
 Linked Data and Javascript - Lab3:Assignment
     <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <style>
+        #map{ height: 100% }
+    </style>
 </head>
 
 <body>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
 
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <h1>Course: An Introduction to Javascript and Linked Data</h1>
 <h2>Semester: Winter Semester 2015/2016</h2>
 
@@ -65,12 +69,18 @@ Linked Data and Javascript - Lab3:Assignment
 	</form>
     <input type = "submit" id ="sub1" onclick="myFunction()" value = "Submit"></input>
 
-</fieldset>	
+</fieldset>
+
+<div id="map" style="width: 600px; height: 400px"></div>
+
+<br>
+<br>
 
 <input type = "button" id = "0" class = "operations" value = "Select all checkboxes"> </input>
 <input type = "button" id = "1" class = "operations" value =  "Add Some Text"> </input>
 <input type = "button" id = "2" class = "operations" value = "Fade out paragraphs"> </input>
 <input type = "button" id = "3" class = "operations" value = "Hide Input Elements"> </input>
+<input type = "button" id = "4" class = "operations" value = "Show Input Elements"> </input>
 
 
 <script>
@@ -94,6 +104,10 @@ Linked Data and Javascript - Lab3:Assignment
           $("#target").hide();
       });
 
+        $("#4").click(function(){
+            $("#target").show();
+        });
+
         $('input[type="submit"]').prop("disabled",true);
         $(function() {
             $( "#datepicker" ).datepicker();
@@ -102,6 +116,51 @@ Linked Data and Javascript - Lab3:Assignment
             $( "#dialog" ).dialog();
         });
     });
+
+    var map = L.map('map').setView([51.96236,7.6257], 13);
+    mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+    L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; ' + mapLink,
+                maxZoom: 18,
+            }).addTo(map);
+
+    L.marker([51.9626, 7.6094])
+            .addTo(map)
+            .bindPopup("<b>WWU</b>")
+            .openPopup();
+
+
+    var geojsonFeature = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [
+                            7.6090192794799805,
+                            51.96351940839632
+                        ],
+                        [
+                            7.624726295471191,
+                            51.96232946431691
+                        ],
+                        [
+                            7.62622833251953,
+                            51.95598256237277
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+    //};
+
+    L.geoJson(geojsonFeature).addTo(map);
 
 window.addEventListener("resize", myPopup);
 function Employee(id,fname,lname,age)
