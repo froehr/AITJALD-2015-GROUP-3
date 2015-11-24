@@ -20,6 +20,23 @@ var osm_hot = new L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.
     attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+var osm_mq = new L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
+    attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    subdomains : ['otile1', 'otile2', 'otile3', 'otile4']
+});
+
+var osm_mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+});
+
+var baseMaps = {
+    "OSM Hot": osm_hot,
+    "OSM MQ": osm_mq,
+    "OSM Mapnik": osm_mapnik
+};
+
+L.control.layers(baseMaps).addTo(map);
+
 
 // fit the leaflet map frame into the bootstrap page
 var mapmargin = 50;
