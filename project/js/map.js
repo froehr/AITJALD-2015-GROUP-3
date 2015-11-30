@@ -64,3 +64,22 @@ function resize(){
 
     map.invalidateSize();
 }
+
+//@function polygonOnClick is triggered, when a polygon is clicked with the left mouse button
+//@param object e: Leafletobject with data about click position
+//@return none
+function polygonOnClick(e) {
+    // e = event
+    console.log(e);
+    fillInfoPanel();
+}
+
+//@function polygonOnRightclick is triggered, when a polygon is clicked with the right mouse button
+//@param object e: Leafletobject with data about click position
+//@return none
+function polygonOnRightclick(e) {
+    // e = event
+    console.log(e);
+    // You can make your ajax call declaration here
+    //$.ajax(...
+}

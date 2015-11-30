@@ -1,28 +1,31 @@
-// function for closing the information panel after clicking on close Button
+// @function closeInfoPanel closes the information panel after clicking on close Button
+// @return none
 function closeInfoPanel(){
     $("#infoPanel").hide();
     $("#mapPanel").removeClass("col-md-9").addClass("col-md-12");
     map.invalidateSize();
 }
 
-// function for opening the information panel after clicking on a map object
+// @function openInfoPanel opens the information panel after clicking on a specific polygon on the map
+// @return none
 function openInfoPanel() {
     $("#infoPanel").show();
     $("#mapPanel").removeClass("col-md-12").addClass("col-md-9");
     map.invalidateSize();
 }
 
-// Show a big version of the highcharts plot of the data
+// @function showBigChart creates more space for the information panel after clicking on the highchart
+// @return none
 function showBigChart(){
-    console.log("to be done")
+    $("#infoPanel").show();
+    $("#infoPanel").removeClass("col-md-3").addClass("col-md-9");
+    $("#mapPanel").removeClass("col-md-12").addClass("col-md-3");
+
+    console.log("This function has to be adjusted")
 }
 
 $("#closeButton").click(function(){
     closeInfoPanel()
-});
-
-$("#map").click(function(){
-    openInfoPanel()
 });
 
 $("#highchartsData").click(function(){

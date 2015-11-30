@@ -1,12 +1,19 @@
 // Chart for displaying migration
 function callHighcharts(data) {
-    $('#highchartsData').highcharts({
+    var polygonChart = $('#highchartsData').highcharts({
             chart: {
-                type: 'line'
+                type: 'line',
+                events: {
+                    click: function(e) {
+
+                    }
+                }
             },
+
             title: {
                 text: 'Placeholder'
             },
+
             yAxis: {
                 min: 0,
                 title: {

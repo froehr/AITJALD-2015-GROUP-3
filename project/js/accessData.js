@@ -14,6 +14,24 @@ function wktToGeoJSON(wktLiteral){
     return geojson;
 }
 
+//@function fillInfoPanel reads data from the triplestore and writes it to the infopanel
+//@param string polygonName: The polygon, which information should be loaded from the Triplestore
+//@return returns a geojson object, which can be plotted in Leaflet
+function fillInfoPanel(polygon){
+    $.ajax({
+        dataType: "jsonp",
+        data: {query: "SELECT DISTINCT * WHERE { ?a ?b ?c . }"},
+        url: QUERYURL,
+        complete: function(data) {
+            console.log("This function has to be adjusted")
+            openInfoPanel();
+        },
+        error: function(data){
+            console.log("Error while reading datastore");
+        }
+    })
+}
+
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
 //@param string color: Color in hexcode
 //@param float weight: Weight of the Layer
@@ -21,6 +39,14 @@ function wktToGeoJSON(wktLiteral){
 //@param json geoJSON: JSON Object containing the polygon
 //@return none
 function addJSONToMap(color, weight , opacity, polygon, properties){
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            click: polygonOnClick,
+            contextmenu: polygonOnRightclick
+        });
+    }
+
     var mapStyle = {
         "color": color,
         "weight": weight,
@@ -28,7 +54,8 @@ function addJSONToMap(color, weight , opacity, polygon, properties){
     };
 
     L.geoJson(polygon, {
-        style: mapStyle
+        style: mapStyle,
+        onEachFeature: onEachFeature
     }).addTo(map);
 }
 
@@ -42,6 +69,7 @@ function queryPolygons(level){
         url: QUERYURL,
         complete: function(data) {
             console.log(data.responseJSON);
+            console.log("This function has to be adjusted")
             console.log(data.responseJSON.results.bindings.length);
             test = data.responseJSON.results.bindings["19"]["c"]["value"];
 
