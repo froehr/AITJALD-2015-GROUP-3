@@ -40,13 +40,14 @@ function showExportFunction() {
 }
 
 function hideExportFunction() {
-    resizePanels("map")
+    resizePanels("map");
+    chartResize();
     $('#highchartsData').show();
 }
 
 // When the windowszie is adjusted the highchart will adjust to the ne available space by rezising
 $(window).resize(function() {
-    chartResize()
+    chartResize();
 });
 
 // @function chartResize resizes the Highchart according to the available space in the info panel
@@ -58,6 +59,8 @@ function chartResize(){
     $('#highchartsData').highcharts().setSize(width, height, Animation=false);
 }
 
+// @function resizePanels resizes the map and info panel according to the users choice
+// @return none
 function resizePanels(which) {
     if (which === "map") {
         $("#infoPanel").removeClass("col-md-9").addClass("col-md-3");
@@ -72,8 +75,7 @@ function resizePanels(which) {
 
     else if(which === "mapOnly") {
         $("#infoPanel").hide();
-        $("#mapPanel").removeClass("col-md-9").addClass("col-md-12");
-        $("#mapPanel").removeClass("col-md-3").addClass("col-md-12");
+        $("#mapPanel").removeClass("col-md-3 col-md-9").addClass("col-md-12");
     }
 }
 
