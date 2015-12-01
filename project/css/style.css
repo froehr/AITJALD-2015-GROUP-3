@@ -9,3 +9,7 @@ html, body, #map, .row-fluid{
 #infoPanel {
     text-align: center;
 }
+
+#smallChartButton, #exportCloseButton {
+    display: none;
+}
