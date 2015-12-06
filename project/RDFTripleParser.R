@@ -6,10 +6,10 @@ mydata$M2012 <- paste("<",mydata$Borough,"><MigrationHistory2012>",mydata$X2012,
 mydata$M2013 <- paste("<",mydata$Borough,"><MigrationHistory2013>",mydata$X2013,".",sep="")
 mydata$M2014 <- paste("<",mydata$Borough,"><MigrationHistory2014>",mydata$X2014,".",sep="")
 head(mydata)
-migrants <- list()
+migrants1 <- list()
 for(i in 1:nrow(mydata))
 {
-  migrants[[i]] <- cbind(mydata$M2010[i],mydata$M2011[i],mydata$M2012[i],mydata$M2013[i],mydata$M2014[i])
+  migrants1[[i]] <- cbind(mydata$M2010[i],mydata$M2011[i],mydata$M2012[i],mydata$M2013[i],mydata$M2014[i])
 }
-migrants <- lapply(migrants,function(x) c(x))
-write.csv(x = migrants,file = "C:/Users/Avipsa/Desktop/migrants.csv")
+#migrants <- unlist(lapply(migrants,function(x) c(x)))
+write.csv(unlist(migrants1),"C:/Users/Avipsa/Desktop/migrantsByYear.csv")
