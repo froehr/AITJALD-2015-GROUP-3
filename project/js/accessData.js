@@ -2,6 +2,8 @@
 // Using Lodum.uni-muenster to create JSON output
 const ENDPOINT = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql";
 const QUERYURL = "http://jsonp.lodum.de/?endpoint=" + ENDPOINT;
+const GRAPH = "http://course.introlinkeddata.org/G3";
+const PREFIXES = "@prefix dc: <http://purl.org/dc/elements/1.1/>.";
 
 //@function wktToGeoJSON transforms wkt literals to geojson objects
 //@param String wktLiteral: The polygon from the tripple store as WKT-format
@@ -10,7 +12,6 @@ function wktToGeoJSON(wktLiteral){
     var completePolygonRegEX = new RegExp("POLYGON.*\\){2}","");
     var completePolygon = wktLiteral.match(completePolygonRegEX);
     var geojson = Terraformer.WKT.parse(completePolygon[0]);
-    console.log(geojson)
     return geojson;
 }
 
@@ -33,12 +34,10 @@ function fillInfoPanel(polygon){
 }
 
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
-//@param string color: Color in hexcode
-//@param float weight: Weight of the Layer
-//@param float opacity: Opacity from 0.0 to 1.0
-//@param json geoJSON: JSON Object containing the polygon
+//@param json polygon: JSON Object containing the polygon
+//@param properties:
 //@return none
-function addJSONToMap(color, weight , opacity, polygon, properties){
+function addJSONToMap(polygon, properties){
 
     function onEachFeature(feature, layer) {
         layer.on({
@@ -47,34 +46,55 @@ function addJSONToMap(color, weight , opacity, polygon, properties){
         });
     }
 
-    var mapStyle = {
-        "color": color,
-        "weight": weight,
-        "opacity": opacity
+    var geojsonFeature = {
+        "type": "Feature",
+        "properties": {
+            "name": properties,
+        },
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": polygon.coordinates
+        }
     };
 
-    L.geoJson(polygon, {
-        style: mapStyle,
+    L.geoJson(geojsonFeature, {
         onEachFeature: onEachFeature
     }).addTo(map);
 }
 
 //@function queryPolygons reads polygons from tripplestore
-//@param String level: The arealevel of the to be created layer (city, borough, subarea, district)
+//@param String level: The arealevel of the to be created layer (city, borough, district)
 //@return returns an array of geojson polygons
 function queryPolygons(level){
+
+    switch (level){
+        case "all":
+            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . }}';
+            break;
+        case "city":
+            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "city", "i") . }}';
+            break;
+        case "boroughs":
+            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "borough", "i") . }}';
+            break;
+        case "districts":
+            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "district", "i") . }}';
+            break;
+        default :
+    }
+
     $.ajax({
         dataType: "jsonp",
-        data: {query: "SELECT DISTINCT * WHERE { ?a ?b ?c . }"},
+        data: {query: query},
         url: QUERYURL,
         complete: function(data) {
             console.log(data.responseJSON);
-            console.log("This function has to be adjusted")
-            console.log(data.responseJSON.results.bindings.length);
-            test = data.responseJSON.results.bindings["19"]["c"]["value"];
-
-            addJSONToMap("red", 1, 1, wktToGeoJSON(test));
-
+            var completeData = data.responseJSON.results.bindings;
+            for (var i = 0; i < completeData.length; i++){
+                var polygon = completeData[i]["polygon"]["value"];
+                var property = completeData[i]["name"]["value"];
+                addJSONToMap(wktToGeoJSON(polygon), property);
+            }
         },
         error: function(data){
             console.log("Error while reading datastore");
@@ -82,6 +102,6 @@ function queryPolygons(level){
     })
 }
 
-queryPolygons("test");
+queryPolygons("all");
 
 
