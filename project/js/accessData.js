@@ -16,15 +16,21 @@ function wktToGeoJSON(wktLiteral){
 }
 
 //@function fillInfoPanel reads data from the triplestore and writes it to the infopanel
-//@param string polygonName: The polygon, which information should be loaded from the Triplestore
+//@param json leafletResponse: The jsonObject, which is returned by leaflet
 //@return returns a geojson object, which can be plotted in Leaflet
 function fillInfoPanel(polygon){
+
+    var featureName = polygon.target.feature.properties.name;
+    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
+
+    console.log(query);
+
     $.ajax({
         dataType: "jsonp",
-        data: {query: "SELECT DISTINCT * WHERE { ?a ?b ?c . }"},
+        data: {query: query },
         url: QUERYURL,
         complete: function(data) {
-            console.log("This function has to be adjusted")
+            console.log(data.responseJSON.results.bindings)
             openInfoPanel();
         },
         error: function(data){
@@ -89,6 +95,7 @@ function queryPolygons(level){
         url: QUERYURL,
         complete: function(data) {
             console.log(data.responseJSON);
+            console.log(data.responseJSON.results.bindings)
             var completeData = data.responseJSON.results.bindings;
             for (var i = 0; i < completeData.length; i++){
                 var polygon = completeData[i]["polygon"]["value"];
@@ -102,6 +109,6 @@ function queryPolygons(level){
     })
 }
 
-queryPolygons("all");
+queryPolygons("districts");
 
 

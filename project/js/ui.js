@@ -89,7 +89,6 @@ $("#bigChartButton").click(function(){
     showBigChart();
 });
 
-
 $("#smallChartButton").click(function(){
     $("#bigChartButton").show();
     $("#smallChartButton").hide()

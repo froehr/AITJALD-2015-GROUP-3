@@ -69,7 +69,7 @@ function resize(){
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnClick(e) {
-    console.log(e.target.feature.properties);
+    console.log(e.target.feature.properties.name);
     fillInfoPanel(e);
 }
 

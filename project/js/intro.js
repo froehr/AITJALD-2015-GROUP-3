@@ -4,10 +4,15 @@ function startIntro(){
     intro.setOptions({
         steps: [
             {
-                element: "",
-                intro: "",
-                positition: ""
+                element: "#map",
+                intro: "This will be the first help step",
+                position: "right"
             },
+            {
+                element: "#infoPanel",
+                intro: "This will be the second help step",
+                position: "left"
+            }
         ]
     });
     intro.start();
