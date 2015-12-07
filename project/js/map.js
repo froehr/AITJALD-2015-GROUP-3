@@ -1,7 +1,7 @@
 // create basic leaflet map with basic functionality
 var map = new L.Map('map', {
     center : [51.96, 7.6245],
-    zoom : 14,
+    zoom : 11,
     dragging : true,
     touchZoom : true,
     scrollWheelZoom : true,
@@ -69,17 +69,13 @@ function resize(){
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnClick(e) {
-    // e = event
-    console.log(e);
-    fillInfoPanel();
+    console.log(e.target.feature.properties);
+    fillInfoPanel(e);
 }
 
 //@function polygonOnRightclick is triggered, when a polygon is clicked with the right mouse button
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnRightclick(e) {
-    // e = event
     console.log(e);
-    // You can make your ajax call declaration here
-    //$.ajax(...
 }
