@@ -42,16 +42,9 @@ function fillInfoPanel(polygon){
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
 //@param json polygon: JSON Object containing the polygon
 //@param properties:
+//@param string layer: Defines to which to layer the polygon will be added
 //@return none
-function addJSONToMap(polygon, properties){
-
-    function onEachFeature(feature, layer) {
-        layer.on({
-            click: polygonOnClick,
-            contextmenu: polygonOnRightclick
-        });
-    }
-
+function addJSONToMap(polygon, properties, layer){
     var geojsonFeature = {
         "type": "Feature",
         "properties": {
@@ -63,9 +56,21 @@ function addJSONToMap(polygon, properties){
         }
     };
 
-    L.geoJson(geojsonFeature, {
-        onEachFeature: onEachFeature
-    }).addTo(map);
+    switch (layer){
+        case "muenster_all":
+            muenster_all.addData(geojsonFeature);
+            break;
+        case "muenster_districts":
+            muenster_districts.addData(geojsonFeature);
+            break;
+        case "muenster_boroughs":
+            muenster_boroughs.addData(geojsonFeature);
+            break;
+        case "muenster_city":
+            muenster_city.addData(geojsonFeature);
+            break;
+        default:
+    }
 }
 
 //@function queryPolygons reads polygons from tripplestore
@@ -76,15 +81,19 @@ function queryPolygons(level){
     switch (level){
         case "all":
             var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . }}';
+            var layer = "muenster_all";
             break;
         case "city":
             var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "city", "i") . }}';
+            var layer = "muenster_city";
             break;
-        case "boroughs":
+        case "borough":
             var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "borough", "i") . }}';
+            var layer = "muenster_boroughs";
             break;
-        case "districts":
+        case "district":
             var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "district", "i") . }}';
+            var layer = "muenster_districts";
             break;
         default :
     }
@@ -94,13 +103,11 @@ function queryPolygons(level){
         data: {query: query},
         url: QUERYURL,
         complete: function(data) {
-            console.log(data.responseJSON);
-            console.log(data.responseJSON.results.bindings)
             var completeData = data.responseJSON.results.bindings;
             for (var i = 0; i < completeData.length; i++){
                 var polygon = completeData[i]["polygon"]["value"];
                 var property = completeData[i]["name"]["value"];
-                addJSONToMap(wktToGeoJSON(polygon), property);
+                addJSONToMap(wktToGeoJSON(polygon), property, layer);
             }
         },
         error: function(data){
@@ -109,6 +116,8 @@ function queryPolygons(level){
     })
 }
 
-queryPolygons("districts");
-
+queryPolygons("borough");
+queryPolygons("district");
+queryPolygons("city");
+queryPolygons("all");
 

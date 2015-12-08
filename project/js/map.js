@@ -38,6 +38,12 @@ var osm_mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
     attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
 
+var muenster_districts = L.geoJson([],{onEachFeature: onEachFeature});
+var muenster_boroughs = L.geoJson([],{onEachFeature: onEachFeature});
+var muenster_city = L.geoJson([],{onEachFeature: onEachFeature});
+var muenster_all = L.geoJson([],{onEachFeature: onEachFeature});
+
+
 // Create basemap switch
 var baseMaps = {
     "OSM Hot": osm_hot,
@@ -45,7 +51,25 @@ var baseMaps = {
     "OSM Mapnik": osm_mapnik
 };
 
-L.control.layers(baseMaps).addTo(map);
+var polygonLayers = {
+    "districts": muenster_districts,
+    "boroughs": muenster_boroughs,
+    "city": muenster_city,
+    "all": muenster_all
+};
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        click: polygonOnClick,
+        contextmenu: polygonOnRightclick
+    });
+}
+
+
+// Layer switcher
+var LlayerSwitcher = new L.control.layers(baseMaps, polygonLayers, {
+    position : 'topright'
+}).addTo(map);
 
 
 // fit the leaflet map frame into the bootstrap page
