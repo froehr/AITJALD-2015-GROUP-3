@@ -63,19 +63,19 @@ function chartResize(){
 // @return none
 function resizePanels(which) {
     if (which === "map") {
-        $("#infoPanel").removeClass("col-md-9").addClass("col-md-3");
-        $("#mapPanel").removeClass("col-md-3").addClass("col-md-9");
+        $("#infoPanel").removeClass("col-md-8").addClass("col-md-4");
+        $("#mapPanel").removeClass("col-md-4").addClass("col-md-8");
     }
 
     else if(which === "info") {
         $("#infoPanel").show();
-        $("#infoPanel").removeClass("col-md-3").addClass("col-md-9");
-        $("#mapPanel").removeClass("col-md-9").addClass("col-md-3");
+        $("#infoPanel").removeClass("col-md-4").addClass("col-md-8");
+        $("#mapPanel").removeClass("col-md-8").addClass("col-md-4");
     }
 
     else if(which === "mapOnly") {
         $("#infoPanel").hide();
-        $("#mapPanel").removeClass("col-md-3 col-md-9").addClass("col-md-12");
+        $("#mapPanel").removeClass("col-md-4 col-md-8").addClass("col-md-12");
     }
 }
 

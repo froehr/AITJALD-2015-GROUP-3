@@ -53,18 +53,32 @@
             </div>
 
             <div class="row">
-                <div class="col-md-9" id="mapPanel">
+                <div class="col-md-8" id="mapPanel">
                     <div id="map"></div>
                 </div>
-                <div class="col-md-3" id="infoPanel">
-                    <h3>Map Information</h3>
-                    <button type="button" class="btn btn-success" id="closeButton">Close information</button>
+                <div class="col-md-4" id="infoPanel">
 
                     <div id="plainData">
+                        <h2 class="capitalize" id="currentArea"></h2>
+                        <table class="table table-bordered table-striped table-hover" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>data</th>
+                                    <th>value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>test2</td>
+                                    <td>test2</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div id="highchartsData">
                     </div>
+                    <button type="button" class="btn btn-success" id="closeButton">Close information</button>
                     <button type="button" class="btn btn-success" id="smallChartButton">Smaller Chart</button>
                     <button type="button" class="btn btn-success" id="bigChartButton">Bigger Chart</button>
                     <button type="button" class="btn btn-success" id="exportButton">Export information</button>
