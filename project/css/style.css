@@ -13,3 +13,16 @@ html, body, #map, .row-fluid{
 #smallChartButton, #exportCloseButton {
     display: none;
 }
+
+#plainData {
+    margin-top: 20px;
+}
+
+.table {
+    text-align: left!important;
+    word-wrap: normal;
+}
+
+.capitalize {
+    text-transform:capitalize;
+}

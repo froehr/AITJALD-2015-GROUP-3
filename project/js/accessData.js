@@ -19,19 +19,31 @@ function wktToGeoJSON(wktLiteral){
 //@param json leafletResponse: The jsonObject, which is returned by leaflet
 //@return returns a geojson object, which can be plotted in Leaflet
 function fillInfoPanel(polygon){
+    openInfoPanel();
+    $("#dataTable > tbody").empty();
 
     var featureName = polygon.target.feature.properties.name;
     var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
-
-    console.log(query);
 
     $.ajax({
         dataType: "jsonp",
         data: {query: query },
         url: QUERYURL,
         complete: function(data) {
-            console.log(data.responseJSON.results.bindings)
-            openInfoPanel();
+            var completeData = data.responseJSON.results.bindings;
+            $("#currentArea").text(polygon.target.feature.properties.name.replace("http://vocab.lodcom.de/",""));
+
+            for (var i = 0; i < completeData.length; i++){
+                var data = completeData[i].description.value;
+                var dataStrippedRegEX = new RegExp("[\\w\\d]*$","");
+                var dataStripped = data.match(dataStrippedRegEX);
+                var value = completeData[i].feature.value;
+
+                if (data.search("coverage") == -1){
+                    $("#dataTable > tbody:last-child").append("<tr><td><a href=" + data + ">" +
+                        dataStripped + "</td><td>" + value + "</td>/tr>");
+                }
+            }
         },
         error: function(data){
             console.log("Error while reading datastore");

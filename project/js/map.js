@@ -93,7 +93,6 @@ function resize(){
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnClick(e) {
-    console.log(e.target.feature.properties.name);
     fillInfoPanel(e);
 }
 
@@ -101,5 +100,6 @@ function polygonOnClick(e) {
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnRightclick(e) {
+    console.log("trigger compare function here")
     console.log(e);
 }
