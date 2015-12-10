@@ -110,3 +110,31 @@ $("#exportCloseButton").click(function(){
     $("#exportCloseButton").hide()
     hideExportFunction();
 });
+
+$("#contextMenu").children().click(function(event){
+    var id = event.target.id;
+    switch(id){
+        case "compareContext":
+            comparePolygonArray.push(currentPolygon.target.feature.properties.name);
+            highlightLayer(currentPolygon.target._leaflet_id, "comparison");
+            comparePolygons();
+            break;
+        case "zoomToFeatureContext":
+            zoomToFeature(currentPolygon);
+            break;
+        case "zoomToLayerContext":
+            zoomToLayer();
+            break;
+        default :
+    }
+});
+
+//make sure contextmenu closes on any click
+$(document).click(function () {
+    hideContextmenu();
+});
+
+// fit the leaflet map frame into the bootstrap page
+$('#map').css("height", ($(window).height() - MAPMARGIN) - 40);
+$(window).on("resize", resizeMap);
+resizeMap();

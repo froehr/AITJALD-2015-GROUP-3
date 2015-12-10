@@ -1,10 +1,3 @@
-// Define global SPARQL Endpoint for accessing the data with Ajax
-// Using Lodum.uni-muenster to create JSON output
-const ENDPOINT = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql";
-const QUERYURL = "http://jsonp.lodum.de/?endpoint=" + ENDPOINT;
-const GRAPH = "http://course.introlinkeddata.org/G3";
-const PREFIXES = "@prefix dc: <http://purl.org/dc/elements/1.1/>.";
-
 //@function wktToGeoJSON transforms wkt literals to geojson objects
 //@param String wktLiteral: The polygon from the tripple store as WKT-format
 //@return returns a geojson object, which can be plotted in Leaflet
@@ -91,10 +84,6 @@ function addJSONToMap(polygon, properties, layer){
 function queryPolygons(level){
 
     switch (level){
-        case "all":
-            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . }}';
-            var layer = "muenster_all";
-            break;
         case "city":
             var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "city", "i") . }}';
             var layer = "muenster_city";
@@ -128,8 +117,33 @@ function queryPolygons(level){
     })
 }
 
-queryPolygons("borough");
-queryPolygons("district");
-queryPolygons("city");
-queryPolygons("all");
+//@function comparePolygons reads polygons from an array and creates a grafical comparison
+//@return none
+function comparePolygons(){
+    uniquePolygon(comparePolygonArray)
+    console.log(comparePolygonArray);
+    console.log("here compare function")
+}
 
+//@function uniquePolygon removes all duplicates from an array
+//@param array array is an array, which might have unwanted duplicates in it
+//@return none
+//@source http://stackoverflow.com/a/9229821
+function uniquePolygon(array) {
+    var seen = {};
+    var out = [];
+    var len = array.length;
+    var j = 0;
+    for(var i = 0; i < len; i++) {
+        var item = array[i];
+        if(seen[item] !== 1) {
+            seen[item] = 1;
+            out[j++] = item;
+        }
+    }
+    comparePolygonArray = out;
+}
+
+queryPolygons("district");
+queryPolygons("borough");
+queryPolygons("city");

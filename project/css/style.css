@@ -26,3 +26,7 @@ html, body, #map, .row-fluid{
 .capitalize {
     text-transform:capitalize;
 }
+
+#compareData {
+    display: none;
+}
