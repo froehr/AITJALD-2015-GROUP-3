@@ -29,9 +29,12 @@
 
     </head>
     <body>
-
+        <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none" >
+            <li><a tabindex="-1" href="#" id="compareContext">Compare...</a></li>
+            <li><a tabindex="-1" href="#" id="zoomToFeatureContext">Zoom to feature</a></li>
+            <li><a tabindex="-1" href="#" id="zoomToLayerContext">Zoom to Layer</a></li>
+        </ul>
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-md-12">
                     <nav class="navbar navbar-default">
@@ -51,13 +54,11 @@
                     </nav>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-8" id="mapPanel">
                     <div id="map"></div>
                 </div>
                 <div class="col-md-4" id="infoPanel">
-
                     <div id="plainData">
                         <h2 class="capitalize" id="currentArea"></h2>
                         <table class="table table-bordered table-striped table-hover" id="dataTable">
@@ -68,14 +69,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>test2</td>
-                                    <td>test2</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
-
+                    <div id="compareData">
+                        <h2 class="capitalize">Comparison</h2>
+                        <ul id="compareList"></ul>
+                    </div>
                     <div id="highchartsData">
                     </div>
                     <button type="button" class="btn btn-success" id="closeButton">Close information</button>
@@ -85,9 +85,8 @@
                     <button type="button" class="btn btn-success" id="exportCloseButton">Back to information Panel</button>
                 </div>
             </div>
-
         </div>
-
+        <script src="js/constants.js"></script>
         <script src="js/map.js"></script>
         <script src="js/accessData.js"></script>
         <script src="js/ui.js"></script>
