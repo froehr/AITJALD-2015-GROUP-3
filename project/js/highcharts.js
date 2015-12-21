@@ -1,32 +1,41 @@
-// Chart for displaying migration
-function callHighcharts(data) {
-    var polygonChart = $('#highchartsData').highcharts({
+//@function callHighcharts renders the data from the triple store to a chart using highcharts
+//@param array xAxis is an array, which stores the labels for the xAxis as string, int or float
+//@param array yAxis is an array, which stores the values for the xAxis as int or float
+//@param string xAxisTitel
+//@param string yAxisTitel
+//@param string chartTitel
+//@param string seriesName
+//@param string chartType
+//@info xAxis.length() and yAxis.length must be equal
+//@return none
+function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, chartTitel, seriesName, charType) {
+    console.log("finish documentation!")
+    $('#highchartsData').highcharts({
             chart: {
-                type: 'line',
+                type: charType,
                 events: {
                     click: function(e) {
-
                     }
                 }
             },
 
             title: {
-                text: 'Placeholder'
+                text: chartTitel
             },
 
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Placeholder'
+                    text: yAxisTitel
                 }
             },
 
             xAxis: {
                 min: 0,
                 title: {
-                    text: 'Placeholder'
+                    text: xAxisTitel
                 },
-                categories: ["2011", "2012", "2013"]
+                categories: xAxis
             },
 
             tooltip: {
@@ -39,12 +48,12 @@ function callHighcharts(data) {
             },
 
             series: [{
-                name: 'Migration',
-                data: data,
+                name: seriesName,
+                data: yAxis,
                 color: '#B20047'
 
             }]
     });
 }
 
-callHighcharts([1,2,3]);
+callHighcharts([],[], "", "", "", "");
