@@ -59,24 +59,32 @@
                     <div id="map"></div>
                 </div>
                 <div class="col-md-4" id="infoPanel">
-                    <div id="plainData">
-                        <h2 class="capitalize" id="currentArea"></h2>
-                        <table class="table table-bordered table-striped table-hover" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>data</th>
-                                    <th>value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div id="singleArea">
+                        <div id="plainData">
+                            <h2 class="capitalize" id="currentArea"></h2>
+                            <table class="table table-bordered table-striped table-hover " id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>data</th>
+                                        <th>value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="highchartsData">
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-success btn-primary dropdown-toggle" type="button"
+                                    data-toggle="dropdown">Choose Data for chart <span class="caret"></span></button>
+                            <ul class="dropdown-menu" id="chartDropdown"></ul>
+                        </div>
                     </div>
-                    <div id="compareData">
-                        <h2 class="capitalize">Comparison</h2>
-                        <ul id="compareList"></ul>
-                    </div>
-                    <div id="highchartsData">
+                    <div id="multipleArea">
+                        <h2 class="capitalize">Comparison:</h2>
+                        <ul id="compareList">
+                        </ul>
                     </div>
                     <button type="button" class="btn btn-success" id="closeButton">Close information</button>
                     <button type="button" class="btn btn-success" id="smallChartButton">Smaller Chart</button>

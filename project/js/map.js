@@ -39,11 +39,11 @@ var osm_mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 });
 
 // create geoJSON layers for the different area levels (district, borough, city)
-var muenster_districts = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
-var muenster_boroughs = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
-var muenster_city = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
+var district = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
+var borough = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
+var city = L.geoJson([],{onEachFeature: onEachFeature, "style": NORMALLEAFLETSTYLE});
 
-muenster_districts.addTo(map);
+district.addTo(map);
 
 // Create basemap switch
 var baseMaps = {
@@ -53,9 +53,9 @@ var baseMaps = {
 };
 
 var polygonLayers = {
-    "districts": muenster_districts,
-    "boroughs": muenster_boroughs,
-    "city": muenster_city
+    "district": district,
+    "borough": borough,
+    "city": city
 };
 
 function onEachFeature(feature, layer) {
@@ -83,10 +83,10 @@ function resizeMap(){
 //@return none
 function polygonOnClick(e) {
     comparePolygonArray = [];
-    highlightLayer(e.target._leaflet_id, "new");
     comparePolygonArray.push(e.target.feature.properties.name);
-    console.log(comparePolygonArray);
+    highlightLayer(e.target._leaflet_id, "normaleStyle");
     fillInfoPanel(e);
+    fillChartDropdown(e);
     hideContextmenu();
 }
 
@@ -146,18 +146,20 @@ function hideContextmenu(){
 //@param string type: defines if its a comparison or a new set of highlighted features
 function highlightLayer(layerID, type) {
     switch (type){
-        case "new":
+        case "normaleStyle":
             for (var i = 0; i < currentHighlightedPolygons.length; i++){
                 map._layers[currentHighlightedPolygons[i]].setStyle(NORMALLEAFLETSTYLE);
             }
             currentHighlightedPolygons = [];
             map._layers[layerID].setStyle(HIGHLIGHTEDLEAFLETSTYLE);
+            map._layers[layerID].bringToFront();
             currentHighlightedPolygons.push(layerID);
             break;
-        case "comparison":
+        case "highlightedStyle":
             currentHighlightedPolygons.push(layerID);
             for (var i = 0; i < currentHighlightedPolygons.length; i++){
                 map._layers[currentHighlightedPolygons[i]].setStyle(HIGHLIGHTEDLEAFLETSTYLE);
+                map._layers[layerID].bringToFront();
             }
             break;
         default:

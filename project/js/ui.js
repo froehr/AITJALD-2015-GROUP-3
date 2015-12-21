@@ -50,6 +50,11 @@ $(window).resize(function() {
     chartResize();
 });
 
+// When the windowszie is adjusted the maximum height of the info panel is adjusted
+function reziseInfoPanel(){
+    $('#infoPanel').css('max-height', $('#mapPanel').height());
+}
+
 // @function chartResize resizes the Highchart according to the available space in the info panel
 // @return none
 function chartResize(){
@@ -116,7 +121,7 @@ $("#contextMenu").children().click(function(event){
     switch(id){
         case "compareContext":
             comparePolygonArray.push(currentPolygon.target.feature.properties.name);
-            highlightLayer(currentPolygon.target._leaflet_id, "comparison");
+            highlightLayer(currentPolygon.target._leaflet_id, "highlightedStyle");
             comparePolygons();
             break;
         case "zoomToFeatureContext":
@@ -135,6 +140,11 @@ $(document).click(function () {
 });
 
 // fit the leaflet map frame into the bootstrap page
-$('#map').css("height", ($(window).height() - MAPMARGIN) - 40);
 $(window).on("resize", resizeMap);
+
+// set the maximum hight of the info panel so that it no has no overflow
+$(window).on("resize", reziseInfoPanel);
+
+// initial reszing of map and info panel
 resizeMap();
+reziseInfoPanel();

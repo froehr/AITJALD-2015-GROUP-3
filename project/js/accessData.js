@@ -8,9 +8,9 @@ function wktToGeoJSON(wktLiteral){
     return geojson;
 }
 
-//@function fillInfoPanel reads data from the triplestore and writes it to the infopanel
-//@param json leafletResponse: The jsonObject, which is returned by leaflet
-//@return returns a geojson object, which can be plotted in Leaflet
+//@function fillInfoPanel reads data from the triplestore and writes it to the info panel
+//@param json polygon:
+//@return none
 function fillInfoPanel(polygon){
     openInfoPanel();
     $("#dataTable > tbody").empty();
@@ -28,12 +28,12 @@ function fillInfoPanel(polygon){
 
             for (var i = 0; i < completeData.length; i++){
                 var data = completeData[i].description.value;
-                var dataStrippedRegEX = new RegExp("[\\w\\d]*$","");
+                var dataStrippedRegEX = new RegExp("[\\w\\d\\-]*$","");
                 var dataStripped = data.match(dataStrippedRegEX);
                 var value = completeData[i].feature.value;
 
                 if (data.search("coverage") == -1){
-                    $("#dataTable > tbody:last-child").append("<tr><td><a href=" + data + ">" +
+                    $("#dataTable > tbody:last-child").append("<tr><td><a href=" + data + " target=\"_blank\" title=\"Get further information\">" +
                         dataStripped + "</td><td>" + value + "</td>/tr>");
                 }
             }
@@ -42,6 +42,51 @@ function fillInfoPanel(polygon){
             console.log("Error while reading datastore");
         }
     })
+}
+
+//@function fillChartDropdown reads data from the triplestore and writes it to the dropdown to choose data in chart
+//@param json polygon: the leaflet polygon, which was clicked
+//@return none
+function fillChartDropdown(polygon) {
+    $('#chartDropdown').empty();
+    var featureName = polygon.target.feature.properties.name;
+    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
+    var valueArray = []
+
+    $.ajax({
+        dataType: "jsonp",
+        data: {query: query },
+        url: QUERYURL,
+        complete: function(data) {
+            var completeData = data.responseJSON.results.bindings;
+            for (var i = 0; i < completeData.length; i++){
+                var str = completeData[i].description.value;
+
+                if (str.search("http://vocab.lodcom.de/") != -1) {
+                    var dataReGex = new RegExp("([\\w:./]*\\/)([a-zA-Z]*)([\\d\\w_-]*)","");
+                    var out = str.replace(dataReGex, "$2");
+                    valueArray.push(out);
+                }
+            }
+            valueArray = uniquePolygon(valueArray);
+            for (var i = 0; i < valueArray.length; i++){
+                var toAppend = '<li id="' + valueArray[i] + '" onclick="loadDataToChart(\'' + featureName + '\', this.id)"><div class="lis">' + valueArray[i] + '</div></li>'
+                $("#chartDropdown").append(toAppend);
+            }
+        },
+        error: function(data){
+            console.log("Error while reading datastore");
+        }
+    })
+}
+
+//@function loadDataToChart reads data from the triplestore and writes it to the chart
+//@param json polygon: the
+//@param int id: the
+//@return none
+function loadDataToChart(polygon, id){
+    console.log(id);
+    console.log(polygon);
 }
 
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
@@ -62,19 +107,15 @@ function addJSONToMap(polygon, properties, layer){
     };
 
     switch (layer){
-        case "muenster_all":
-            muenster_all.addData(geojsonFeature);
+        case "district":
+            district.addData(geojsonFeature);
             break;
-        case "muenster_districts":
-            muenster_districts.addData(geojsonFeature);
+        case "borough":
+            borough.addData(geojsonFeature);
             break;
-        case "muenster_boroughs":
-            muenster_boroughs.addData(geojsonFeature);
+        case "city":
+            city.addData(geojsonFeature);
             break;
-        case "muenster_city":
-            muenster_city.addData(geojsonFeature);
-            break;
-        default:
     }
 }
 
@@ -82,23 +123,9 @@ function addJSONToMap(polygon, properties, layer){
 //@param String level: The arealevel of the to be created layer (city, borough, district)
 //@return returns an array of geojson polygons
 function queryPolygons(level){
-
-    switch (level){
-        case "city":
-            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "city", "i") . }}';
-            var layer = "muenster_city";
-            break;
-        case "borough":
-            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "borough", "i") . }}';
-            var layer = "muenster_boroughs";
-            break;
-        case "district":
-            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?polygon . ?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "district", "i") . }}';
-            var layer = "muenster_districts";
-            break;
-        default :
-    }
-
+    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ ?name <http://purl.org/dc/elements/1.1/coverage> ?area . ' +
+        '?area <http://www.opengis.net/ont/geosparql#asWKT> ?polygon . ' +
+        '?name <http://purl.org/dc/elements/1.1/description> ?b FILTER regex(?b, "' + level + '", "i") . }}';
     $.ajax({
         dataType: "jsonp",
         data: {query: query},
@@ -108,7 +135,7 @@ function queryPolygons(level){
             for (var i = 0; i < completeData.length; i++){
                 var polygon = completeData[i]["polygon"]["value"];
                 var property = completeData[i]["name"]["value"];
-                addJSONToMap(wktToGeoJSON(polygon), property, layer);
+                addJSONToMap(wktToGeoJSON(polygon), property, level);
             }
         },
         error: function(data){
@@ -120,14 +147,14 @@ function queryPolygons(level){
 //@function comparePolygons reads polygons from an array and creates a grafical comparison
 //@return none
 function comparePolygons(){
-    uniquePolygon(comparePolygonArray)
+    comparePolygonArray = uniquePolygon(comparePolygonArray)
     console.log(comparePolygonArray);
     console.log("here compare function")
 }
 
 //@function uniquePolygon removes all duplicates from an array
 //@param array array is an array, which might have unwanted duplicates in it
-//@return none
+//@return none polygon, which is stript from double values
 //@source http://stackoverflow.com/a/9229821
 function uniquePolygon(array) {
     var seen = {};
@@ -141,7 +168,7 @@ function uniquePolygon(array) {
             out[j++] = item;
         }
     }
-    comparePolygonArray = out;
+    return out;
 }
 
 queryPolygons("district");

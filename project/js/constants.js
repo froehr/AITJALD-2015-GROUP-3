@@ -6,7 +6,7 @@ const GRAPH = "http://course.introlinkeddata.org/G3";
 const PREFIXES = ["@prefix dc: <http://purl.org/dc/elements/1.1/>."];
 
 // Id of contextmenu
-const CONTEXTID = "#contextMenu"
+const CONTEXTID = "#contextMenu";
 
 // Style for highlighted features in leaflet
 const HIGHLIGHTEDLEAFLETSTYLE = {
