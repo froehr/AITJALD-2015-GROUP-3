@@ -20,12 +20,18 @@ html, body, #map, .row-fluid{
     max-height: 500px;
 }
 
+#highchartsData {
+    display: none;
+}
+
 .table {
     text-align: left!important;
     word-wrap: break-word;
 }
 
-thead, tbody, tr, td, th { display: block; }
+thead, tbody, tr, td, th {
+    display: block;
+}
 
 tr:after {
     content: ' ';
@@ -41,7 +47,6 @@ tbody {
 
 tbody td, thead th {
     width: 50%;
-    height: inherit;
     float: left;
 }
 
