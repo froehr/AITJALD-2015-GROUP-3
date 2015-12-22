@@ -81,12 +81,46 @@ function fillChartDropdown(polygon) {
 }
 
 //@function loadDataToChart reads data from the triplestore and writes it to the chart
-//@param json polygon: the
-//@param int id: the
+//@param json featureName: the
+//@param string dataName: the
 //@return none
-function loadDataToChart(polygon, id){
-    console.log(id);
-    console.log(polygon);
+function loadDataToChart(featureName, dataName){
+    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?dataName ?value ' +
+        'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
+    $.ajax({
+        dataType: "jsonp",
+        data: {query: query },
+        url: QUERYURL,
+        complete: function(data) {
+            var completeData = data.responseJSON.results.bindings;
+            var contentXAxis = [];
+            var contentYAxis = [];
+            var chartTitel = featureName.replace("http://vocab.lodcom.de/","") + " - " + dataName;
+            var yAxisMinValue = 0;
+
+            for (var i = 0; i < completeData.length; i++){
+                contentXAxis.push(completeData[i].dataName.value.replace("http://vocab.lodcom.de/" + dataName,""));
+                contentYAxis.push(parseInt(completeData[i].value.value));
+
+                if (parseInt(completeData[i].value.value) < yAxisMinValue || yAxisMinValue == 0){
+                    yAxisMinValue = parseInt(completeData[i].value.value);
+                }
+            }
+
+            contentXAxis.reverse();
+            contentYAxis.reverse();
+
+            yAxisMinValue = yAxisMinValue - 200;
+            if(yAxisMinValue < 0) {
+                yAxisMinValue = 0;
+            }
+
+            callHighcharts(contentXAxis, contentYAxis, "", "Number of Persons", yAxisMinValue, chartTitel , dataName, "column");
+        },
+        error: function(data){
+            console.log("Error while reading datastore");
+        }
+    })
 }
 
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
