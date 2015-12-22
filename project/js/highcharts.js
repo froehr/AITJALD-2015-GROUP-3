@@ -9,10 +9,11 @@
 //@param string chartType makes it possible to set the chart type like bar, line, column etc.
 //@info xAxis.length() and yAxis.length must be equal
 //@return none
-function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, chartTitel, seriesName, charType) {
+function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, chartTitel, seriesName, chartType) {
     $('#highchartsData').highcharts({
             chart: {
-                type: charType,
+                type: chartType,
+                zoomType: 'xy',
                 events: {
                     click: function(e) {
                     }
