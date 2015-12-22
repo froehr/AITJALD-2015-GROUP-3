@@ -82,6 +82,7 @@ function resizeMap(){
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnClick(e) {
+    $('#highchartsData').hide();
     comparePolygonArray = [];
     comparePolygonArray.push(e.target.feature.properties.name);
     highlightLayer(e.target._leaflet_id, "normaleStyle");

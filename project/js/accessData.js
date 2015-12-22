@@ -26,6 +26,7 @@ function fillInfoPanel(polygon){
             var completeData = data.responseJSON.results.bindings;
             $("#currentArea").text(polygon.target.feature.properties.name.replace("http://vocab.lodcom.de/",""));
 
+            completeData.reverse();
             for (var i = 0; i < completeData.length; i++){
                 var data = completeData[i].description.value;
                 var dataStrippedRegEX = new RegExp("[\\w\\d\\-]*$","");
