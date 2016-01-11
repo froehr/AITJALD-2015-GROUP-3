@@ -86,6 +86,7 @@ function fillChartDropdown(polygon) {
 //@param string dataName: the
 //@return none
 function loadDataToChart(featureName, dataName){
+    $('#highchartsData').show();
     var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?dataName ?value ' +
         'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
     $.ajax({
@@ -182,6 +183,10 @@ function queryPolygons(level){
 //@function comparePolygons reads polygons from an array and creates a grafical comparison
 //@return none
 function comparePolygons(){
+    removeAllSeries()
+
+    for(comparePolygonArray)
+    console.log($('#highchartsData').highcharts());
     comparePolygonArray = uniquePolygon(comparePolygonArray)
     console.log(comparePolygonArray);
     console.log("here compare function")
