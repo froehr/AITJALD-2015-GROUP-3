@@ -33,3 +33,6 @@ var comparePolygonArray = [];
 
 // The polygon, which is currently highlighted
 var currentHighlightedPolygons = [];
+
+// The current Datapoint, which is shown in the chart, this is choosen by the dropdown above the chart
+var currentDataPoint = "";

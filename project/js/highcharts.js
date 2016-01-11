@@ -46,8 +46,7 @@ function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, cha
             series: [{
                 name: seriesName,
                 id: seriesName,
-                data: yAxis,
-                color: '#B20047'
+                data: yAxis
             }]
     });
 }
@@ -76,7 +75,7 @@ function addSeries(seriesName, seriesData){
 //@function removeAllSeries removes all series from the graph to make it possible to make a  new comparison
 //@return none
 function removeAllSeries(){
-    while(chart.series.length > 0) {
-        chart.series[0].remove(true);
+    while( $('#highchartsData').highcharts().series.length > 0) {
+        $('#highchartsData').highcharts().series[0].remove(true);
     }
 }

@@ -82,11 +82,13 @@ function fillChartDropdown(polygon) {
 }
 
 //@function loadDataToChart reads data from the triplestore and writes it to the chart
-//@param json featureName: the
-//@param string dataName: the
+//@param json featureName: the polygon's name
+//@param string dataName: the datapoints's name like migrationHIstory2010 etc.
+//@param boolean add defines if the new series should be added or be the only series in the chart
 //@return none
-function loadDataToChart(featureName, dataName){
+function loadDataToChart(featureName, dataName, add){
     $('#highchartsData').show();
+    currentDataPoint = dataName;
     var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?dataName ?value ' +
         'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
     $.ajax({
@@ -112,12 +114,22 @@ function loadDataToChart(featureName, dataName){
             contentXAxis.reverse();
             contentYAxis.reverse();
 
-            yAxisMinValue = yAxisMinValue - 200;
-            if(yAxisMinValue < 0) {
-                yAxisMinValue = 0;
+            if (add) {
+                featureName = featureName.replace("http://vocab.lodcom.de/","")
+                addSeries(featureName, contentYAxis);
+                $('#highchartsData').highcharts().setTitle({ text: dataName });
             }
 
-            callHighcharts(contentXAxis, contentYAxis, "", "Number of Persons", yAxisMinValue, chartTitel , dataName, "column");
+            else {
+                yAxisMinValue = yAxisMinValue - 200;
+                if(yAxisMinValue < 0) {
+                    yAxisMinValue = 0;
+                }
+
+                callHighcharts(contentXAxis, contentYAxis, "", "Number of Persons", yAxisMinValue, chartTitel , dataName, "column");
+            }
+
+
         },
         error: function(data){
             console.log("Error while reading datastore");
@@ -183,13 +195,12 @@ function queryPolygons(level){
 //@function comparePolygons reads polygons from an array and creates a grafical comparison
 //@return none
 function comparePolygons(){
+    comparePolygonArray = uniquePolygon(comparePolygonArray)
     removeAllSeries()
 
-    //for(comparePolygonArray)
-    console.log($('#highchartsData').highcharts());
-    comparePolygonArray = uniquePolygon(comparePolygonArray)
-    console.log(comparePolygonArray);
-    console.log("here compare function")
+    for(var i = 0; i < comparePolygonArray.length; i++) {
+        loadDataToChart(comparePolygonArray[i], currentDataPoint, true)
+    }
 }
 
 //@function uniquePolygon removes all duplicates from an array
