@@ -29,23 +29,23 @@ html, body, #map, .row-fluid{
     word-wrap: break-word;
 }
 
-thead, tbody, tr, td, th {
+#dataTable thead, #dataTable tbody, #dataTable tr, #dataTable td, #dataTable th {
     display: block;
 }
 
-tr:after {
+#dataTable tr:after {
     content: ' ';
     display: block;
     visibility: hidden;
     clear: both;
 }
 
-tbody {
+#dataTable tbody {
     max-height: 200px;
     overflow-y: auto;
 }
 
-tbody td, thead th {
+#dataTable td, #dataTable th {
     width: 50%;
     float: left;
 }

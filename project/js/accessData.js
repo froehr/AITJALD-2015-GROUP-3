@@ -185,7 +185,7 @@ function queryPolygons(level){
 function comparePolygons(){
     removeAllSeries()
 
-    for(comparePolygonArray)
+    //for(comparePolygonArray)
     console.log($('#highchartsData').highcharts());
     comparePolygonArray = uniquePolygon(comparePolygonArray)
     console.log(comparePolygonArray);
