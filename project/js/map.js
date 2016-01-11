@@ -89,6 +89,7 @@ function polygonOnClick(e) {
     fillInfoPanel(e);
     fillChartDropdown(e);
     hideContextmenu();
+    $('#highchartsData').hide();
 }
 
 //@function polygonOnRightclick is triggered, when a polygon is clicked with the right mouse button
