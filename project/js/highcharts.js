@@ -45,9 +45,38 @@ function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, cha
             },
             series: [{
                 name: seriesName,
+                id: seriesName,
                 data: yAxis,
                 color: '#B20047'
             }]
     });
 }
 callHighcharts([],[], "", "", "", "");
+
+
+//@function removeSeries removes a specific series from the chart
+//@param string seriesID is the name of a series and therefor a district, borough or city
+//@return none
+function removeSeries(seriesID) {
+    $('#highchartsData').highcharts().get(seriesID).remove();
+}
+
+//@function addSeries adds a new series to the chart
+//@param string seriesName is the name of a series and also the id of the series - this will always be the name of the district or borough
+//@param array seriesDara stores the data, which will be shown in the graph
+//@return none
+function addSeries(seriesName, seriesData){
+    $('#highchartsData').highcharts().addSeries({
+        data: seriesData,
+        name: seriesName,
+        id: seriesName
+    });
+}
+
+//@function removeAllSeries removes all series from the graph to make it possible to make a  new comparison
+//@return none
+function removeAllSeries(){
+    while(chart.series.length > 0) {
+        chart.series[0].remove(true);
+    }
+}
