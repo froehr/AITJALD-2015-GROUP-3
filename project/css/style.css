@@ -1,0 +1,76 @@
+html, body, #map, .row-fluid{
+    height: 100%;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+#smallChartButton, #exportCloseButton {
+    display: none;
+}
+
+#infoPanel {
+    text-align: center;
+    display: block;
+    overflow: scroll;
+}
+
+#plainData {
+    margin-top: 20px;
+    max-height: 500px;
+}
+
+#highchartsData {
+    display: none;
+}
+
+.table {
+    text-align: left!important;
+    word-wrap: break-word;
+}
+
+#dataTable thead, #dataTable tbody, #dataTable tr, #dataTable td, #dataTable th {
+    display: block;
+}
+
+#dataTable tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+#dataTable tbody {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#dataTable td, #dataTable th {
+    width: 50%;
+    float: left;
+}
+
+.capitalize {
+    text-transform:capitalize;
+}
+
+#singleArea {
+    display: block;
+}
+
+#multipleArea {
+    display: block;
+}
+
+.dropdown {
+    text-align: left;
+}
+
+.lis {
+    height: 30px;
+    padding: 5px;
+}
+
+.lis:hover {
+    background-color: lightgrey;
+}
