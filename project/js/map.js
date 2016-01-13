@@ -136,7 +136,7 @@ function zoomToFeature(e) {
 //@function zoomToLayer zoom to the extend of the layer of the clicked polygon
 //@param object e: Leafletobject with data about click position
 function zoomToLayer() {
-    map.fitBounds(muenster_city.getBounds());
+    map.fitBounds(city.getBounds());
 }
 
 function hideContextmenu(){
