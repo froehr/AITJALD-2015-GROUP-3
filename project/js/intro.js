@@ -22,8 +22,9 @@ function startIntro(){
                 element: ".dropdown",
                 intro: "Choose the information that you want to see in a chart.",
                 position: "left"
-            }        
+            }     
         ]
     });
     intro.start();
+    //introJs().setOptions({ 'exitOnOverlayClick': 'false', 'showStepNumbers': 'false'}).start();
 }
