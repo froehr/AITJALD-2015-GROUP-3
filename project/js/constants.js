@@ -35,4 +35,7 @@ var comparePolygonArray = [];
 var currentHighlightedPolygons = [];
 
 // The current Datapoint, which is shown in the chart, this is choosen by the dropdown above the chart
-var currentDataPoint = "";
+var currentDataPoint = "HouseholdwithMajorityPopulationMigrationHistory";
+
+// Stores all Layer IDs with corresponding name
+var layerIDTable = []

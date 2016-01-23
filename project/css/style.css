@@ -12,7 +12,6 @@ html, body, #map, .row-fluid{
 #infoPanel {
     text-align: center;
     display: block;
-    overflow: scroll;
 }
 
 #plainData {
@@ -20,7 +19,7 @@ html, body, #map, .row-fluid{
     max-height: 500px;
 }
 
-#highchartsData {
+#singleHighchartsData {
     display: none;
 }
 
@@ -73,4 +72,8 @@ html, body, #map, .row-fluid{
 
 .lis:hover {
     background-color: lightgrey;
+}
+
+#compareList {
+    text-align: left;
 }

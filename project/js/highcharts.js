@@ -9,55 +9,116 @@
 //@param string chartType makes it possible to set the chart type like bar, line, column etc.
 //@info xAxis.length() and yAxis.length must be equal
 //@return none
-function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, chartTitel, seriesName, chartType) {
-    $('#highchartsData').highcharts({
-            chart: {
-                type: chartType,
-                zoomType: 'xy',
-                events: {
-                    click: function(e) {
+function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, chartTitel, seriesName, chartType, single) {
+    switch (single) {
+        case true:
+            $('#singleHighchartsData').highcharts({
+                chart: {
+                    type: chartType,
+                    zoomType: 'xy',
+                    events: {
+                        click: function(e) {
+                        }
                     }
-                }
-            },
-            title: {
-                text: chartTitel
-            },
-            yAxis: {
-                min: yAxisMinValue,
-                title: {
-                    text: yAxisTitel
-                }
-            },
-            xAxis: {
-                min: 0,
-                title: {
-                    text: xAxisTitel
                 },
-                categories: xAxis
-            },
-            tooltip: {
-                shared: true,
-                useHTML: true,
-                headerFormat: '<b>{point.key}</b><table>',
-                pointFormat: '<tr><td style="color: {series.color}">{series.name}:</td></tr>' +
-                '<tr><td><b>{point.y} persons</b></td></tr>',
-                footerFormat: '</table>',
-            },
-            series: [{
-                name: seriesName,
-                id: seriesName,
-                data: yAxis
-            }]
-    });
+                title: {
+                    text: chartTitel,
+                    style: {
+                        fontSize: '1.5vmin',
+                        fontWeight: 'bold',
+                        color: '#1381bc',
+                        lineHeight: '15em',
+                    }
+                },
+                yAxis: {
+                    min: yAxisMinValue,
+                    title: {
+                        text: yAxisTitel
+                    }
+                },
+                xAxis: {
+                    min: 0,
+                    title: {
+                        text: xAxisTitel
+                    },
+                    categories: xAxis
+                },
+                tooltip: {
+                    shared: true,
+                    useHTML: true,
+                    headerFormat: '<b>{point.key}</b><table>',
+                    pointFormat: '<tr><td style="color: {series.color}">{series.name}:</td></tr>' +
+                    '<tr><td><b>{point.y} persons</b></td></tr>',
+                    footerFormat: '</table>',
+                },
+                series: [{
+                    name: seriesName,
+                    id: seriesName,
+                    data: yAxis
+                }]
+            });
+            break;
+        case false:
+            $('#multiHighchartsData').highcharts({
+                chart: {
+                    type: chartType,
+                    zoomType: 'xy',
+                    events: {
+                        click: function(e) {
+                        }
+                    }
+                },
+                title: {
+                    text: chartTitel,
+                    style: {
+                        fontSize: '1.5vmin',
+                        fontWeight: 'bold',
+                        color: '#1381bc',
+                        lineHeight: '15em',
+                    }
+                },
+                yAxis: {
+                    min: yAxisMinValue,
+                    title: {
+                        text: yAxisTitel
+                    }
+                },
+                xAxis: {
+                    min: 0,
+                    title: {
+                        text: xAxisTitel
+                    },
+                    categories: xAxis
+                },
+                tooltip: {
+                    shared: true,
+                    useHTML: true,
+                    headerFormat: '<b>{point.key}</b><table>',
+                    pointFormat: '<tr><td style="color: {series.color}">{series.name}:</td></tr>' +
+                    '<tr><td><b>{point.y} persons</b></td></tr>',
+                    footerFormat: '</table>',
+                }
+            });
+            break;
+    }
+
 }
-callHighcharts([],[], "", "", "", "");
+callHighcharts([],[], "", "", "", "","","", true);
 
 
 //@function removeSeries removes a specific series from the chart
 //@param string seriesID is the name of a series and therefor a district, borough or city
 //@return none
-function removeSeries(seriesID) {
-    $('#highchartsData').highcharts().get(seriesID).remove();
+function removeSeries(seriesID, chart) {
+    seriesID = seriesID.replace("http://vocab.lodcom.de/","");
+    switch (chart){
+        case "single":
+            $('#singleHighchartsData').highcharts().get(seriesID).remove();
+            break;
+        case "multi":
+            $('#multiHighchartsData').highcharts().get(seriesID).remove();
+    }
+
 }
 
 //@function addSeries adds a new series to the chart
@@ -65,7 +126,7 @@ function removeSeries(seriesID) {
 //@param array seriesDara stores the data, which will be shown in the graph
 //@return none
 function addSeries(seriesName, seriesData){
-    $('#highchartsData').highcharts().addSeries({
+    $('#multiHighchartsData').highcharts().addSeries({
         data: seriesData,
         name: seriesName,
         id: seriesName
@@ -75,7 +136,7 @@ function addSeries(seriesName, seriesData){
 //@function removeAllSeries removes all series from the graph to make it possible to make a  new comparison
 //@return none
 function removeAllSeries(){
-    while( $('#highchartsData').highcharts().series.length > 0) {
-        $('#highchartsData').highcharts().series[0].remove(true);
+    while( $('#singleHighchartsData').highcharts().series.length > 0) {
+        $('#singleHighchartsData').highcharts().series[0].remove(true);
     }
 }

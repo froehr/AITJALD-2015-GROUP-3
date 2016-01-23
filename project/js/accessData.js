@@ -47,12 +47,21 @@ function fillInfoPanel(polygon){
 
 //@function fillChartDropdown reads data from the triplestore and writes it to the dropdown to choose data in chart
 //@param json polygon: the leaflet polygon, which was clicked
+//@param boolean isSingleDropdown: determines if the single or compare dropdown should be filled.
 //@return none
-function fillChartDropdown(polygon) {
-    $('#chartDropdown').empty();
-    var featureName = polygon.target.feature.properties.name;
-    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
-    var valueArray = []
+function fillChartDropdown(polygon, isSingleDropdown) {
+    if (isSingleDropdown) {
+        $('#singleChartDropdown').empty();
+        var featureName = polygon.target.feature.properties.name;
+        var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
+        var valueArray = []
+    }
+    else {
+        $('#multiChartDropdown').empty();
+        var featureName = polygon;
+        var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?description ?feature . }}';
+        var valueArray = []
+    }
 
     $.ajax({
         dataType: "jsonp",
@@ -70,9 +79,18 @@ function fillChartDropdown(polygon) {
                 }
             }
             valueArray = uniquePolygon(valueArray);
-            for (var i = 0; i < valueArray.length; i++){
-                var toAppend = '<li id="' + valueArray[i] + '" onclick="loadDataToChart(\'' + featureName + '\', this.id)"><div class="lis">' + valueArray[i] + '</div></li>'
-                $("#chartDropdown").append(toAppend);
+
+            if (isSingleDropdown) {
+                for (var i = 0; i < valueArray.length; i++){
+                    var toAppend = '<li id="' + valueArray[i] + '" onclick="loadDataToChart(true, this.id, false)"><div class="lis">' + valueArray[i] + '</div></li>'
+                    $("#singleChartDropdown").append(toAppend);
+                }
+            }
+            else {
+                for (var i = 0; i < valueArray.length; i++){
+                    var toAppend = '<li id="' + valueArray[i] + '" onclick="loadDataToChart(false, this.id, false)"><div class="lis">' + valueArray[i] + '</div></li>'
+                    $("#multiChartDropdown").append(toAppend);
+                }
             }
         },
         error: function(data){
@@ -86,55 +104,70 @@ function fillChartDropdown(polygon) {
 //@param string dataName: the datapoints's name like migrationHIstory2010 etc.
 //@param boolean add defines if the new series should be added or be the only series in the chart
 //@return none
-function loadDataToChart(featureName, dataName, add){
-    $('#highchartsData').show();
-    currentDataPoint = dataName;
-    var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?dataName ?value ' +
-        'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
-    $.ajax({
-        dataType: "jsonp",
-        data: {query: query },
-        url: QUERYURL,
-        complete: function(data) {
-            var completeData = data.responseJSON.results.bindings;
-            var contentXAxis = [];
-            var contentYAxis = [];
-            var chartTitel = featureName.replace("http://vocab.lodcom.de/","") + " - " + dataName;
-            var yAxisMinValue = 0;
-
-            for (var i = 0; i < completeData.length; i++){
-                contentXAxis.push(completeData[i].dataName.value.replace("http://vocab.lodcom.de/" + dataName,""));
-                contentYAxis.push(parseInt(completeData[i].value.value));
-
-                if (parseInt(completeData[i].value.value) < yAxisMinValue || yAxisMinValue == 0){
-                    yAxisMinValue = parseInt(completeData[i].value.value);
-                }
-            }
-
-            contentXAxis.reverse();
-            contentYAxis.reverse();
-
-            if (add) {
-                featureName = featureName.replace("http://vocab.lodcom.de/","")
-                addSeries(featureName, contentYAxis);
-                $('#highchartsData').highcharts().setTitle({ text: dataName });
-            }
-
-            else {
-                yAxisMinValue = yAxisMinValue - 200;
-                if(yAxisMinValue < 0) {
-                    yAxisMinValue = 0;
-                }
-
-                callHighcharts(contentXAxis, contentYAxis, "", "Number of Persons", yAxisMinValue, chartTitel , dataName, "column");
-            }
-
-
-        },
-        error: function(data){
-            console.log("Error while reading datastore");
+function loadDataToChart(isSingle, dataName){
+    if(isSingle) {
+        $('#singleHighchartsData').show();
+        currentDataPoint = dataName;
+        var featureName = currentPolygon.target.feature.properties.name;
+        var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + featureName + '> ?dataName ?value ' +
+            'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
+        getData(query, dataName, false);
+    }
+    else {
+        $('#multiHighchartsData').show();
+        currentDataPoint = dataName;
+        callHighcharts([], [], "", "Number of Persons", "", "", "", "column", false);
+        for (var i = 0; i < comparePolygonArray.length; i++){
+            var query = 'SELECT * WHERE {GRAPH <'+GRAPH+'>{ <' + comparePolygonArray[i] + '> ?dataName ?value ' +
+                'FILTER regex(str(?dataName), "' + dataName + '20"). }}';
+            getData(query, dataName, true, comparePolygonArray[i]);
         }
-    })
+    }
+
+    function getData(queryInternal, dataNameInternal, addInternal, featureNameInternal) {
+        $.ajax({
+            dataType: "jsonp",
+            data: {query: queryInternal},
+            url: QUERYURL,
+            complete: function (data) {
+                var completeData = data.responseJSON.results.bindings;
+                var contentXAxis = [];
+                var contentYAxis = [];
+                var chartTitel = dataNameInternal;
+                var yAxisMinValue = 0;
+
+                for (var i = 0; i < completeData.length; i++) {
+                    contentXAxis.push(completeData[i].dataName.value.replace("http://vocab.lodcom.de/" + dataNameInternal, ""));
+                    contentYAxis.push(parseInt(completeData[i].value.value));
+
+                    if (parseInt(completeData[i].value.value) < yAxisMinValue || yAxisMinValue == 0) {
+                        yAxisMinValue = parseInt(completeData[i].value.value);
+                    }
+                }
+
+                contentXAxis.reverse();
+                contentYAxis.reverse();
+
+                if (addInternal) {
+                    featureNameInternal = featureNameInternal.replace("http://vocab.lodcom.de/", "")
+                    addSeries(featureNameInternal, contentYAxis);
+                    $('#multiHighchartsData').highcharts().setTitle({text: dataNameInternal});
+                    $('#multiHighchartsData').highcharts().xAxis[0].setCategories(contentXAxis);
+                }
+
+                else {
+                    yAxisMinValue = yAxisMinValue - 200;
+                    if (yAxisMinValue < 0) {
+                        yAxisMinValue = 0;
+                    }
+                    callHighcharts(contentXAxis, contentYAxis, "", "Number of Persons", yAxisMinValue, chartTitel, dataNameInternal, "column", true);
+                }
+            },
+            error: function (data) {
+                console.log("Error while reading datastore");
+            }
+        })
+    }
 }
 
 //@function addJSONToMap adds polygons to a leaflet map with a specified style
@@ -196,10 +229,31 @@ function queryPolygons(level){
 //@return none
 function comparePolygons(){
     comparePolygonArray = uniquePolygon(comparePolygonArray)
-    removeAllSeries()
+    removeAllSeries();
+    fillChartDropdown(comparePolygonArray[0], false)
+    $('#compareList').empty();
+    loadDataToChart(false, currentDataPoint);
 
     for(var i = 0; i < comparePolygonArray.length; i++) {
-        loadDataToChart(comparePolygonArray[i], currentDataPoint, true)
+        var id = comparePolygonArray[i].replace("http://vocab.lodcom.de/","");
+        $('#compareList').append('<li id="' + id + '"><h4>' + id + ' <button type="button" class="btn btn-danger" ' +
+            'onclick="removeFromComparison(\'' + comparePolygonArray[i] + '\')">x</button></h4></li>');
+    }
+}
+
+
+
+function removeFromComparison(featureName) {
+    removeSeries(featureName);
+    currentHighlightedPolygons = $.grep(currentHighlightedPolygons, function(value) {return value != findElement(layerIDTable, featureName);});
+    comparePolygonArray = $.grep(comparePolygonArray, function(value) {return value != featureName;});
+    removeSeries(featureName, "multi")
+    var featureNameRemove = "#" + featureName.replace("http://vocab.lodcom.de/","");
+    $(featureNameRemove).remove();
+    for(var i = 0; i < layerIDTable.length; i++) {
+        if(layerIDTable[i][0] == featureName) {
+            map._layers[layerIDTable[i][1]._leaflet_id].setStyle(NORMALLEAFLETSTYLE);
+        }
     }
 }
 
@@ -221,6 +275,20 @@ function uniquePolygon(array) {
     }
     return out;
 }
+function findElement(array, name) {
+    var leafletId = false;
+    var notFound = true;
+    var i = 0;
+    while(i < array.length && notFound) {
+        if(name == array[i][0]) {
+            leafletId = array[i][1]["_leaflet_id"];
+            notFound = false;
+        }
+        i++;
+    }
+    return leafletId
+}
+
 
 queryPolygons("district");
 queryPolygons("borough");

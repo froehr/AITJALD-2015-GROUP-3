@@ -72,19 +72,27 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                            <div class="dropdown">
+                                <button class="btn btn-success btn-primary dropdown-toggle" type="button"
+                                        data-toggle="dropdown">Choose Data for chart <span class="caret"></span></button>
+                                <ul class="dropdown-menu" id="singleChartDropdown"></ul>
+                            </div>
+                            <br>
                         </div>
-                        <div class="dropdown">
-                            <button class="btn btn-success btn-primary dropdown-toggle" type="button"
-                                    data-toggle="dropdown">Choose Data for chart <span class="caret"></span></button>
-                            <ul class="dropdown-menu" id="chartDropdown"></ul>
-                        </div>
-                        <div id="highchartsData" class="capitalize">
+                        <div id="singleHighchartsData" class="capitalize">
                         </div>
                     </div>
                     <div id="multipleArea">
                         <h2 class="capitalize">Comparison:</h2>
-                        <ul id="compareList">
+                        <ul id="compareList" class="capitalize">
                         </ul>
+                        <div class="dropdown">
+                            <button class="btn btn-success btn-primary dropdown-toggle" type="button"
+                                    data-toggle="dropdown">Choose Data for chart <span class="caret"></span></button>
+                            <ul class="dropdown-menu" id="multiChartDropdown"></ul>
+                        </div>
+                        <br>
+                        <div id="multiHighchartsData" class="capitalize">
                     </div>
                     <button type="button" class="btn btn-success" id="closeButton">Close information</button>
                     <button type="button" class="btn btn-success" id="smallChartButton">Smaller Chart</button>

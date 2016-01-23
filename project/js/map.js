@@ -59,6 +59,7 @@ var polygonLayers = {
 };
 
 function onEachFeature(feature, layer) {
+    layerIDTable.push([feature.properties.name, layer])
     layer.on({
         click: polygonOnClick,
         contextmenu: polygonOnRightclick,
@@ -66,7 +67,7 @@ function onEachFeature(feature, layer) {
 }
 
 // Layer switcher
-var LlayerSwitcher = new L.control.layers(baseMaps, polygonLayers, {
+new L.control.layers(baseMaps, polygonLayers, {
     position : 'topright'
 }).addTo(map);
 
@@ -82,14 +83,17 @@ function resizeMap(){
 //@param object e: Leafletobject with data about click position
 //@return none
 function polygonOnClick(e) {
-    $('#highchartsData').hide();
+    $('#singleHighchartsData').hide();
+    currentPolygon = e;
     comparePolygonArray = [];
     comparePolygonArray.push(e.target.feature.properties.name);
-    highlightLayer(e.target._leaflet_id, "normaleStyle");
+    highlightLayer(e.target._leaflet_id, "normalStyle");
     fillInfoPanel(e);
-    fillChartDropdown(e);
+    fillChartDropdown(e, true);
     hideContextmenu();
-    $('#highchartsData').hide();
+    $('#singleHighchartsData').hide();
+    $('#multipleArea').hide();
+    $('#singleArea').show();
 }
 
 //@function polygonOnRightclick is triggered, when a polygon is clicked with the right mouse button
@@ -148,7 +152,7 @@ function hideContextmenu(){
 //@param string type: defines if its a comparison or a new set of highlighted features
 function highlightLayer(layerID, type) {
     switch (type){
-        case "normaleStyle":
+        case "normalStyle":
             for (var i = 0; i < currentHighlightedPolygons.length; i++){
                 map._layers[currentHighlightedPolygons[i]].setStyle(NORMALLEAFLETSTYLE);
             }

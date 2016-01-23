@@ -36,13 +36,13 @@ function showSmallChart() {
 
 function showExportFunction() {
     resizePanels("info");
-    $('#highchartsData').hide();
+    $('#singleHighchartsData').hide();
 }
 
 function hideExportFunction() {
     resizePanels("map");
     chartResize();
-    $('#highchartsData').show();
+    $('#singleHighchartsData').show();
 }
 
 // When the windowszie is adjusted the highchart will adjust to the ne available space by rezising
@@ -61,7 +61,7 @@ function chartResize(){
     var width = $("#infoPanel").width();
     var height = $(window).height() * 0.5;
     if (height < 300) { height = 300 }
-    $('#highchartsData').highcharts().setSize(width, height, Animation=false);
+    $('#singleHighchartsData').highcharts().setSize(width, height, Animation=false);
 }
 
 // @function resizePanels resizes the map and info panel according to the users choice
@@ -122,6 +122,8 @@ $("#contextMenu").children().click(function(event){
         case "compareContext":
             comparePolygonArray.push(currentPolygon.target.feature.properties.name);
             highlightLayer(currentPolygon.target._leaflet_id, "highlightedStyle");
+            $('#singleArea').hide();
+            $('#multipleArea').show();
             comparePolygons();
             break;
         case "zoomToFeatureContext":
