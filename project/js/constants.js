@@ -3,7 +3,6 @@
 const ENDPOINT = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql";
 const QUERYURL = "http://jsonp.lodum.de/?endpoint=" + ENDPOINT;
 const GRAPH = "http://course.introlinkeddata.org/G3";
-const PREFIXES = ["@prefix dc: <http://purl.org/dc/elements/1.1/>."];
 
 // Id of contextmenu
 const CONTEXTID = "#contextMenu";

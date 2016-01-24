@@ -17,6 +17,7 @@ html, body, #map, .row-fluid{
 #plainData {
     margin-top: 20px;
     max-height: 500px;
+    overflow: scroll;
 }
 
 #singleHighchartsData {
@@ -58,7 +59,11 @@ html, body, #map, .row-fluid{
 }
 
 #multipleArea {
-    display: block;
+    display: none;
+}
+
+#exportArea{
+    display: none;
 }
 
 .dropdown {
@@ -76,4 +81,19 @@ html, body, #map, .row-fluid{
 
 #compareList {
     text-align: left;
+}
+
+.removeButton {
+    padding: 0px 10px 0px 10px !important;
+    height: 25px !important;
+}
+
+#startExportTD {
+    text-align: center;
+}
+
+#messageExport {
+    text-align: center;
+    color: red;
+    font-size: 20px;
 }

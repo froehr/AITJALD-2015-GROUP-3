@@ -36,13 +36,17 @@ function showSmallChart() {
 
 function showExportFunction() {
     resizePanels("info");
-    $('#singleHighchartsData').hide();
+    $('#singleArea').hide();
+    $('#multipleArea').hide();
+    $('#exportArea').show();
 }
 
 function hideExportFunction() {
     resizePanels("map");
     chartResize();
-    $('#singleHighchartsData').show();
+    $('#exportArea').hide();
+    $('#singleArea').show();
+    $('#smallChartButton').hide();
 }
 
 // When the windowszie is adjusted the highchart will adjust to the ne available space by rezising
@@ -62,6 +66,7 @@ function chartResize(){
     var height = $(window).height() * 0.5;
     if (height < 300) { height = 300 }
     $('#singleHighchartsData').highcharts().setSize(width, height, Animation=false);
+    $('#multiHighchartsData').highcharts().setSize(width, height, Animation=false);
 }
 
 // @function resizePanels resizes the map and info panel according to the users choice
@@ -110,7 +115,7 @@ $("#exportButton").click(function(){
 
 $("#exportCloseButton").click(function(){
     $("#bigChartButton").show();
-    $("#smallChartButton").hide()
+    $("#smallChartButton").show()
     $("#exportButton").show()
     $("#exportCloseButton").hide()
     hideExportFunction();

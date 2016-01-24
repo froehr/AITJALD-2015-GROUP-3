@@ -236,12 +236,10 @@ function comparePolygons(){
 
     for(var i = 0; i < comparePolygonArray.length; i++) {
         var id = comparePolygonArray[i].replace("http://vocab.lodcom.de/","");
-        $('#compareList').append('<li id="' + id + '"><h4>' + id + ' <button type="button" class="btn btn-danger" ' +
-            'onclick="removeFromComparison(\'' + comparePolygonArray[i] + '\')">x</button></h4></li>');
+        $('#compareList').append('<li id="' + id + '"><h4>' + id + ' <button type="button" class="btn btn-danger removeButton" ' +
+            'onclick="removeFromComparison(\'' + comparePolygonArray[i] + '\')">X</button></h4></li>');
     }
 }
-
-
 
 function removeFromComparison(featureName) {
     removeSeries(featureName);

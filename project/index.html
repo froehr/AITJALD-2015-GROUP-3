@@ -92,13 +92,77 @@
                             <ul class="dropdown-menu" id="multiChartDropdown"></ul>
                         </div>
                         <br>
-                        <div id="multiHighchartsData" class="capitalize">
+                        <div id="multiHighchartsData" class="capitalize"></div>
                     </div>
-                    <button type="button" class="btn btn-success" id="closeButton">Close information</button>
+                    <div id="exportArea">
+                        <h2 class="capitalize">Export Information:</h2>
+
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Choose the level of detail:
+                                </td>
+                                <td id="levelExport">
+                                    <label class="checkbox-inline"><input type="checkbox" name="level" value="city">City level</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="level" value="borough">Borough level</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="level" value="district">District level</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Choose the years to export:
+                                </td>
+                                <td id="yearsExport">
+                                    <label class="checkbox-inline"><input type="checkbox" name="year" value="2010">2010</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="year" value="2011">2011</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="year" value="2012">2012</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="year" value="2013">2013</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="year" value="2014">2014</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Choose the data you want to export:
+                                </td>
+                                <td id="dataExport">
+                                    <div class="checkbox"><label><input type="checkbox" name="data" value="PopulationwithMigrationHistoryAgeGroups">PopulationwithMigrationHistoryAgeGroups</label></div>
+                                    <div class="checkbox"><label><input type="checkbox" name="data" value="PopulationwithMigrationHistory">PopulationwithMigrationHistory</label></div>
+                                    <div class="checkbox"><label><input type="checkbox" name="data" value="HouseholdwithMajorityPopulationMigrationHistory">HouseholdwithMajorityPopulationMigrationHistory</label></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Export gegraphic polygon:
+                                </td>
+                                <td id="geoExport">
+                                    <label class="radio-inline"><input type="radio" name="geo" value="true">Yes</label>
+                                    <label class="radio-inline"><input type="radio" name="geo" value="false" checked>No</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    The output format will be JSON and the result will be logged in the Browser console
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="startExportTD">
+                                    <button id="startExport" type="button" class="btn btn-success">Start export!</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="messageExport">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <button type="button" class="btn btn-warning" id="closeButton">Close information</button>
                     <button type="button" class="btn btn-success" id="smallChartButton">Smaller Chart</button>
                     <button type="button" class="btn btn-success" id="bigChartButton">Bigger Chart</button>
                     <button type="button" class="btn btn-success" id="exportButton">Export information</button>
-                    <button type="button" class="btn btn-success" id="exportCloseButton">Back to information Panel</button>
+                    <button type="button" class="btn btn-warning" id="exportCloseButton">Back to information Panel</button>
                 </div>
             </div>
         </div>
@@ -108,5 +172,6 @@
         <script src="js/ui.js"></script>
         <script src="js/highcharts.js"></script>
         <script src="js/intro.js"></script>
+        <script src="js/export.js"></script>
     </body>
 </html>

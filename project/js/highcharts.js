@@ -104,7 +104,7 @@ function callHighcharts(xAxis, yAxis, xAxisTitel, yAxisTitel, yAxisMinValue, cha
 
 }
 callHighcharts([],[], "", "", "", "","","", true);
-
+callHighcharts([],[], "", "", "", "","","", false);
 
 //@function removeSeries removes a specific series from the chart
 //@param string seriesID is the name of a series and therefor a district, borough or city
