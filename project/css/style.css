@@ -12,12 +12,12 @@ html, body, #map, .row-fluid{
 #infoPanel {
     text-align: center;
     display: block;
+    overflow: scroll;
 }
 
 #plainData {
     margin-top: 20px;
     max-height: 500px;
-    overflow: scroll;
 }
 
 #singleHighchartsData {
