@@ -5,6 +5,13 @@ html, body, #map, .row-fluid{
     margin: 0;
 }
 
+#navbarIcon {
+    height: 40px;
+    width: auto;
+    margin: 5px 10px 0px 0px;
+    float: left;
+}
+
 #smallChartButton, #exportCloseButton {
     display: none;
 }
