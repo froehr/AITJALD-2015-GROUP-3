@@ -9,16 +9,16 @@ const CONTEXTID = "#contextMenu";
 
 // Style for highlighted features in leaflet
 const HIGHLIGHTEDLEAFLETSTYLE = {
-    'color': 'red',
-    'weight': 2,
-    'opacity': 1
+    color: 'red',
+    weight: 2,
+    opacity: 3
 };
 
 // Style for normal styled features in leaflet
 const NORMALLEAFLETSTYLE = {
-    'color': 'green',
-    'weight': 2,
-    'opacity': 1
+    color: 'green',
+    weight: 2,
+    opacity: 1
 }
 
 // Margin around mapframe in px
