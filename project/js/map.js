@@ -154,7 +154,14 @@ function highlightLayer(layerID, type) {
     switch (type){
         case "normalStyle":
             for (var i = 0; i < currentHighlightedPolygons.length; i++){
-                map._layers[currentHighlightedPolygons[i]].setStyle(NORMALLEAFLETSTYLE);
+                try {
+                    map._layers[currentHighlightedPolygons[i]].setStyle(NORMALLEAFLETSTYLE);
+                }
+                catch(err) {
+                    console.log(err.message);
+                    alert("Another layer, which is not displayed anymore is still selected. Please enable the last layer again to unselect it!");
+                }
+
             }
             currentHighlightedPolygons = [];
             map._layers[layerID].setStyle(HIGHLIGHTEDLEAFLETSTYLE);
