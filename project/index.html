@@ -40,13 +40,14 @@
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
                             <div class="navbar-header">
+                                <img id="navbarIcon" src="img/icon.png">
                                 <a class="navbar-brand" href="index.html">Migration of Muenster</a>
                             </div>
                             <div>
                                 <ul class="nav navbar-nav">
                                     <li class="active"><a href="index.html">Map</a></li>
                                     <li><a href="team.html">About</a></li>
-                                    <li onclick="startIntro();"><a href="#">Help</a></li>
+                                    <li onclick="startIntro();"><a href="#">Tour</a></li>
                                     <li><a href="license.html">License</a></li>
                                 </ul>
                             </div>
@@ -150,10 +151,6 @@
                                     <button id="startExport" type="button" class="btn btn-success">Start export!</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="2" id="messageExport">
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
 
@@ -171,7 +168,7 @@
         <script src="js/accessData.js"></script>
         <script src="js/ui.js"></script>
         <script src="js/highcharts.js"></script>
-        <script src="js/intro.js"></script>
+        <script src="js/help.js"></script>
         <script src="js/export.js"></script>
     </body>
 </html>
