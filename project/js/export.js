@@ -1,4 +1,8 @@
 $("#startExport").click(function() {
+    exportInformation();
+});
+
+function exportInformation(callbackExport){
     var level = [];
     var year = [];
     var data = [];
@@ -28,7 +32,8 @@ $("#startExport").click(function() {
     level.forEach(function(levelItem) {
         exportObject[levelItem] = {};
 
-        var query = 'SELECT ?feature WHERE {GRAPH <'+GRAPH+'>{ ?feature ?dataName ?value FILTER regex(str(?value), "' + levelItem + '")}} GROUP BY ?feature';
+        var query = 'SELECT ?feature WHERE {GRAPH <'+GRAPH+'>{ ?feature ?dataName ?value FILTER regex(str(?value), "'
+            + levelItem + '")}} GROUP BY ?feature';
         readDataForExport(query, levelItem, "", "", "", "level", function(result) {
             for (var e in result[levelItem]) {
                 if(geo[0] == "true") {
@@ -100,5 +105,8 @@ $("#startExport").click(function() {
             }
         })
     }
-    console.log(exportObject);
-});
+    console.log("%s %O", "My Object", exportObject);
+}
+
+
+
