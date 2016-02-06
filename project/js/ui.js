@@ -34,6 +34,8 @@ function showSmallChart() {
     chartResize();
 }
 
+//@function showExportFunction is used to hide the charts and show the export form
+//@return none
 function showExportFunction() {
     resizePanels("info");
     $('#singleArea').hide();
@@ -41,6 +43,8 @@ function showExportFunction() {
     $('#exportArea').show();
 }
 
+//@function hideExportFunction is used to hide the export form and show the charts
+//@return none
 function hideExportFunction() {
     resizePanels("map");
     chartResize();

@@ -241,6 +241,8 @@ function comparePolygons(){
     }
 }
 
+//function removeFromComparison is called to remove a polygon from a comparison and unhighlight it and remove it from the chart
+//@param string featureName is the name of the district, borough or city, which should be removed from the comparison
 function removeFromComparison(featureName) {
     removeSeries(featureName);
     currentHighlightedPolygons = $.grep(currentHighlightedPolygons, function(value) {return value != findElement(layerIDTable, featureName);});
@@ -273,6 +275,11 @@ function uniquePolygon(array) {
     }
     return out;
 }
+
+//function findElement iterates over an array and returns the leafletID of the searched polygon
+//@param array array is the array to search in. In this case it will be layerIDTable most of the time
+//@param string name is the name of the district, borough or city, which is searched
+//@return returns the leafletID, which corrosponse to the inserted layer Name
 function findElement(array, name) {
     var leafletId = false;
     var notFound = true;
@@ -288,6 +295,7 @@ function findElement(array, name) {
 }
 
 
+//These functions are called once in the beginning to load the layers to the map
 queryPolygons("district");
 queryPolygons("borough");
 queryPolygons("city");

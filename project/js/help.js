@@ -1,3 +1,5 @@
+//@function startIntro is using introJS framework to create the tour for the webpage
+//the steps array gives the steps which are shown during the tour and show which elemts should have which information attached
 function startIntro(){
     var intro = introJs();
 
