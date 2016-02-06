@@ -1,49 +1,115 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Fabian Röhr, Avipsa Roy, Paola Perez, Joanna Kwong">
-    <title>Migration of Muenster</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Fabian Röhr, Avipsa Roy, Paola Perez, Joanna Kwong">
+        <title>Migration of Muenster</title>
 
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
 
-    <script src="js/frameworks/jquery/jquery-1.11.3.min.js"></script>
+        <script src="js/frameworks/jquery/jquery-1.11.3.min.js"></script>
 
-    <link href="js/frameworks/bootstrap/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
-    <link href="js/frameworks/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
-    <script src="js/frameworks/bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
-
-<div class="container-fluid">
-
-    <div class="row">
-        <div class="col-md-12">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html">Migration of Muenster</a>
-                    </div>
-                    <div>
-                        <ul class="nav navbar-nav">
-                            <li><a href="index.html">Map</a></li>
-                            <li> <a href="team.html">Team</a></li>
-                            <li class="active"><a href="help.html">Help</a></li>
-                            <li><a href="license.html">License</a></li>
-                        </ul>
-                    </div>
+        <link href="js/frameworks/bootstrap/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
+        <link href="js/frameworks/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+        <script src="js/frameworks/bootstrap/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <img id="navbarIcon" src="img/icon.png">
+                                <a class="navbar-brand" href="index.html">Migration of Muenster</a>
+                            </div>
+                            <div>
+                                <ul class="nav navbar-nav">
+                                    <li><a href="index.html">Map</a></li>
+                                    <li> <a href="team.html">Team</a></li>
+                                    <li class="active"><a href="help.html">Help</a></li>
+                                    <li><a href="license.html">License</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-            </nav>
+            </div><div class="col-md-2"></div>
+            <div class="col-md-6">
+                <h2>The Map</h2>
+                <p>
+                    The map is the central tool to request data about the city, boroughs and districts of Muenster. On start
+                    you can see the different districts and therefor the most fine grained visualization possible on this
+                    website. With the button in the top right corner you can switch between different base maps but also
+                    switch between the different city levels. This makes it possible to choose the data you want to focus on.
+                    If you click on a part of Muenster you get infornation in the area right beside the map. This data
+                    contains the name, a wikipedia link to get mor information, and especially data about migration for this
+                    area.
+                </p>
+                <p>
+                    If you click on an are using the right mouse button a context menu opens and you have the possibility to
+                    add the click area to a comparison. The data about this are will than be accessible on the information
+                    panel on the right. <br>
+                    With the contextmenu it is also possible to directly zoom to a specific are or reset the zoom to
+                    complete muenster.
+                </p>
+                <h2>The Information panel</h2>
+                <p>
+                    The information panel is the area on the right side of the map, which shows the data after a specific
+                    area was click. This area gives several possibilities to use the data. These will be explained now:
+                </p>
+                <h3>The Chart</h3>
+                <p>
+                    The chart is based on higharts and loads the data based on what is choosen in the dropdown menu, which
+                    opens if "Choose data for chart" is clicked. After clicking the button, the data is direcly loaded from
+                    the database and shown in the chart. If you hover over the different cloumns you can get information
+                    about the exact value and the year this value was measured.
+                </p>
+                <p>
+                    If you use the chart for a comparison this works exactly the same but multiple areas are loaded to the
+                    chart and are visualized beside each other.
+                </p>
+                <h3>The Export function</h3>
+                <p>
+                    With a click on the "Export Information" button it is possible to get the plain data from the database
+                    and use it in any way you like.
+                </p>
+                <p>
+                    After clicking the button a formular opens were you can choose the data you want to be exported.
+                    Please choose for every category at least one value to get the export started.
+                    After clicking on export the result is logged in the browser console ready to be copied and used as
+                    ever you like.
+                </p>
+                <h2>The Tour</h2>
+                <p>
+                    The tour button is only available if you are on the map page. It is based on the intro.js library and
+                    really easy to understand. If you click on the button a certain part of the website is highlighted and
+                    explained. After that you can change to the next important are and have that explained.
+                </p>
+
+                <h2>The data and database</h2>
+                <p>
+                    The data on this website is focused on the migration itself and people you are living in Muenster
+                    and have a migration background. This can be personal migration or inherited migration if the parents
+                    or grandparents migrated from another country to Muenster.
+                </p>
+                <h2>External libraries</h2>
+                <p>
+                    If you are interested to have a look at the frameworks and libraries, which were used on this website,
+                    please check the following links for sourcecode and documentation:
+                </p>
+                    <ul>
+                        <li><a href="http://leafletjs.com">Leaflet</a></li>
+                        <li><a href="http://highcharts.com">Highcharts</a></li>
+                        <li><a href="http://bootstrap.com">Bootstrap</a></li>
+                        <li><a href="http://jquery.com">jQuery</a></li>
+                        <li><a href="http://terraformer.io/">wktParser</a></li>
+                        <li><a href="https://github.com/usablica/intro.js">Intro.js</a></li>
+                    </ul>
+
+                </p>
+            </div>
         </div>
-    </div>
-
-</div>
-
-
-</div>
-
-<script src="js/ui.js"></script>
-
-</body>
+    </body>
 </html>
