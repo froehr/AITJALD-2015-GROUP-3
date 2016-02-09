@@ -12,6 +12,13 @@ html, body, #map, .row-fluid{
     float: left;
 }
 
+#infoIcon {
+    height: 40px;
+    width: auto;
+    margin: -10px 10px 0px 0px;
+    float: left;
+}
+
 #smallChartButton, #exportCloseButton {
     display: none;
 }
@@ -103,4 +110,8 @@ html, body, #map, .row-fluid{
     text-align: center;
     color: red;
     font-size: 15px;
+}
+
+#tourButtonNav {
+    float: right !important;
 }
