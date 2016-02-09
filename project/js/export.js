@@ -26,12 +26,13 @@ function exportInformation(){
     if($.isEmptyObject(data)){allFilled = false};
 
     if (!allFilled) {
-        $('#messageExport').empty();
-        $('#messageExport').html('Please choose at least one value for each category');
+        $('#messageExport').css('color', 'red');
+        $('#messageExport').html('Please choose at least one value for each category.');
         return 0;
     }
     else {
-        $('#messageExport').empty();
+        $('#messageExport').css('color', 'green');
+        $('#messageExport').html('Success! Please check your browser console to get the data.');
     }
 
     //Start of reading the data
